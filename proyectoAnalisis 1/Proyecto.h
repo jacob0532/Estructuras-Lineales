@@ -5,11 +5,19 @@
 
 using namespace std;
 
+// Definición del struct ComponenteRequerido
+struct ComponenteRequerido {
+    // Atributos del struct ComponenteRequerido
+    Componente tipoComponente;
+    int cantMinRequerida;
+};
+
 class Proyecto {
 public:
     string nombre;
     string descripcion;
     double valorPorcentual;
+    list<ComponenteRequerido> ComponentesRequeridos;
 
 public:
     Proyecto() = default;

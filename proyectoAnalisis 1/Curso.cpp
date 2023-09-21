@@ -4,13 +4,21 @@
 using namespace std;
 
 
-Curso::Curso(string codigo, string nombre, int creditos)
-    : codigo(codigo), nombre(nombre), creditos(creditos) {}
+Curso::Curso(string codigo, string nombre, int creditos, list<Proyecto> listaProyectos)
+    : codigo(codigo), nombre(nombre), creditos(creditos), listaProyectos(listaProyectos) {
+}
+
 // Método para obtener una representación en string del curso
 string Curso::ToString() {
-    string info = "Código: " + codigo + "\n";
-    info += "Nombre: " + nombre + "\n";
-    info += "Créditos: " + to_string(creditos) + "\n";
+    string cursoString = "Código: " + codigo + "\n";
+    cursoString += "Nombre: " + nombre + "\n";
+    cursoString += "Créditos: " + to_string(creditos) + "\n";
 
-    return info;
+    cursoString += "Lista de Proyectos:\n";
+    for (const Proyecto& proyecto : listaProyectos) {
+        cursoString += " - Nombre del Proyecto: " + proyecto.nombreProyecto + "\n";
+        // Agregar otros atributos relevantes de la clase Proyecto según sea necesario
+    }
+
+    return cursoString;
 }

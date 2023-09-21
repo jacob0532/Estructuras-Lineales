@@ -3,15 +3,28 @@
 
 using namespace std;
 
-Componente::Componente(string codigo, string nombre, string descripcion, string clasificacion, string aplicaciones)
-    : codigo(codigo), nombre(nombre), descripcion(descripcion), clasificacion(clasificacion), aplicaciones(aplicaciones) {}
+Componente::Componente(string codigo, string nombre, string descripcion, Clasificacion clasificacion, string aplicaciones)
+    : codigo(codigo), nombre(nombre), descripcion(descripcion), clasificacion(clasificacion), aplicaciones(aplicaciones) {
+}
+
 // Método para obtener una representación en string del componente
 string Componente::ToString() {
-    string info = "Código: " + codigo + "\n";
-    info += "Nombre: " + nombre + "\n";
-    info += "Descripción: " + descripcion + "\n";
-    info += "Clasificación: " + clasificacion + "\n";
-    info += "Aplicaciones: " + aplicaciones + "\n";
+    string componenteString = "Código: " + codigo + "\n";
+    componenteString += "Nombre: " + nombre + "\n";
+    componenteString += "Descripción: " + descripcion + "\n";
 
-    return info;
+    // Convertir la clasificación a string
+    string clasificacionStr;
+    if (clasificacion == ACTIVO) {
+        clasificacionStr = "Activo";
+    } else {
+        clasificacionStr = "Pasivo";
+    }
+    componenteString += "Clasificación: " + clasificacionStr + "\n";
+
+    componenteString += "Aplicaciones: " + aplicaciones + "\n";
+
+    // Agregar lógica para convertir la lista de Tipos a string si es necesario
+
+    return componenteString;
 }

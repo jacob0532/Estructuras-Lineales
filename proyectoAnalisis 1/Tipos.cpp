@@ -5,13 +5,17 @@ using namespace std;
 
 
 
+Tipos::Tipos(string codigo, string nombre, string descripcion, string dondeSeUtilizan, int cantidad)
+    : codigo(codigo), nombre(nombre), descripcion(descripcion), dondeSeUtilizan(dondeSeUtilizan), cantidad(cantidad) {
+}
+
 // Método para obtener una representación en string del tipo de componente
 string Tipos::ToString() {
-    string info = "Código: " + codigo + "\n";
-    info += "Nombre: " + nombre + "\n";
-    info += "Descripción: " + descripcion + "\n";
-    info += "Donde se utilizan: " + dondeSeUtilizan + "\n";
-    info += "Cantidad: " + to_string(cantidad) + "\n";
+    string tipoString = "Código: " + codigo + "\n";
+    tipoString += "Nombre: " + nombre + "\n";
+    tipoString += "Descripción: " + descripcion + "\n";
+    tipoString += "Donde se utilizan: " + dondeSeUtilizan + "\n";
+    tipoString += "Cantidad: " + to_string(cantidad) + "\n";
 
-    return info;
+    return tipoString;
 }
