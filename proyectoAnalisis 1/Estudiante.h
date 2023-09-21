@@ -2,8 +2,17 @@
 #define ESTUDIANTE_H
 
 #include <string>
+#include <list>
 
 using namespace std;
+
+// Definición del struct PrestamoTiposC
+struct PrestamoTiposC {
+    // Atributos del struct PrestamoTiposC
+    Componente tipoComponente;
+    Proyecto proyecto
+    int cantidad;
+};
 
 class Estudiante {
 public:
@@ -13,6 +22,8 @@ public:
     string cedula;
     int edad;
     string lugarResidencia;
+    list<Curso> listaMatricula;
+    lista<PrestamoTiposC> listaPrestamos;
 
 public:
     Estudiante() = default;
@@ -23,5 +34,6 @@ public:
 };
 
 #endif  // ESTUDIANTE_H
+
 
 

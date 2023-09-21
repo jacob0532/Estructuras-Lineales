@@ -1,11 +1,11 @@
-#ifndef TIPOCOMPONENTE_H
-#define TIPOCOMPONENTE_H
+#ifndef Tipos_H
+#define Tipos_H
 
 #include <string>
 
 using namespace std;
 
-class TipoComponente {
+class Tipos {
 public:
     string codigo;
     string nombre;
@@ -14,13 +14,13 @@ public:
     int cantidad;
 
 public:
-    TipoComponente() = default;
-    TipoComponente(string codigo, string nombre, string descripcion, string dondeSeUtilizan, int cantidad);
+    Tipos() = default;
+    Tipos(string codigo, string nombre, string descripcion, string dondeSeUtilizan, int cantidad);
     
     // Método para obtener una representación en string del tipo de componente
     string ToString();
 };
 
-#endif  // TIPOCOMPONENTE_H
+#endif  // Tipos_H
 
 
