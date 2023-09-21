@@ -5,11 +5,16 @@
 
 using namespace std;
 
-struct Proyecto {
+class Proyecto {
+public:
     string nombre;
     string descripcion;
     double valorPorcentual;
 
+public:
+    Proyecto() = default;
+    Proyecto(string nombre, string descripcion, double valorPorcentual);
+    
     // Método para obtener una representación en string del proyecto
     string ToString();
 };

@@ -5,19 +5,20 @@
 
 using namespace std;
 
-struct Curso {
+class Curso {
+public:
     string codigo;
     string nombre;
     int creditos;
 
+public:
     Curso() = default;
-
-
-    // Constructor con argumentos
     Curso(string codigo, string nombre, int creditos);
+    
     // Método para obtener una representación en string del curso
     string ToString();
 };
 
 #endif  // CURSO_H
+
 

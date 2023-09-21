@@ -5,20 +5,22 @@
 
 using namespace std;
 
-struct Componente {
+class Componente {
+public:
     string codigo;
     string nombre;
     string descripcion;
     string clasificacion; // Activo o Pasivo
     string aplicaciones;
 
+public:
     Componente() = default;
-
     Componente(string codigo, string nombre, string descripcion, string clasificacion, string aplicaciones);
-
+    
     // Método para obtener una representación en string del componente
     string ToString();
 };
 
 #endif  // COMPONENTE_H
+
 
