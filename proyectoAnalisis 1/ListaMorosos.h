@@ -25,11 +25,10 @@ public:
 
 public:
     ListaMorosos() = default;
-    ListaMorosos(const Estudiante& estudiante, const Componente& tipoComponente, int cantidad); //constructor de lista morosos
+    int AgregarMoroso(const Estudiante& estudiante, const Componente& tipoComponente, int cantidad); //constructor de lista morosos
 
     // Método que permite obtener una representación en string de la lista de morosos
     string ToString();
-    bool AgrearMoroso();
 };
 
 #endif  // LISTAMOROSOS_H

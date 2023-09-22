@@ -342,8 +342,8 @@ void InsertarListaMorosos(DatosSistema& datosSistema) {
     cin >> cantidadPendiente;
 
     // Llamar a la función para agregar al estudiante a la lista de morosos
-    //datosSistema.listaMorosos.AgregarMoroso(*itEstudiante, *itComponente, cantidadPendiente);
-    //cout << "Estudiante agregado a la lista de morosos correctamente." << endl;
+    datosSistema.listaMorosos.AgregarMoroso(*itEstudiante, *itComponente, cantidadPendiente);
+    cout << "Estudiante agregado a la lista de morosos correctamente." << endl;
 }
 
 //Funcion que permite insertar un tipo de componente al sistema, lo incluye en la lista de tipos definida el inicio.

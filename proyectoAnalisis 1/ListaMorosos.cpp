@@ -3,12 +3,15 @@
 
 using namespace std;
 
-/*
+/**/
 // Método para agregar un estudiante moroso a la lista
-ListaMorosos::ListaMorosos(const Estudiante& estudiante, const Componente& tipoComponente, int cantidad) {
-    
+int ListaMorosos::AgregarMoroso(const Estudiante& estudiante, const Componente& tipoComponente, int cantidad) {
+    estudiantes.push_back(estudiante);
+    tiposComponentes.push_back(tipoComponente);
+    cantidadPendiente.push_back(cantidad);
+
 }
-*/
+
 
 // Método que permite obtener una representación en string de la lista de morosos
 string ListaMorosos::ToString() {
