@@ -31,5 +31,34 @@ string Estudiante::ToString() {
     return info;
 }
 
-//A un estudiante no se le prestará un tipo de componente que no requiera en algún proyecto de sus cursos matriculados.
-
+bool Estudiante::SolicitarPrestamo(Componente tipoComponente, int cantidad) {
+    // Itera sobre los cursos matriculados del estudiante
+    for (const Curso& curso : listaMatricula) {
+        // Busca el proyecto asociado a este curso
+        for (const Proyecto& proyecto : curso.listaProyectos) {
+            // Verifica si el tipo de componente es requerido en este proyecto
+            for (const ComponenteRequerido& componenteRequerido : proyecto.ComponentesRequeridos) {
+                if (componenteRequerido.tipoComponente.codigo == tipoComponente.codigo &&
+                    cantidad <= componenteRequerido.cantMinRequerida) {
+                    // Busca el tipo de componente en la lista de tipos
+                    for (Tipos& tipo : tipoComponente.tipos) {
+                        if (tipo.codigo == tipoComponente.codigo && tipo.cantidad >= cantidad) {
+                            // El componente es necesario y hay suficiente cantidad para prestar
+                            PrestamoTiposC prestamo;
+                            prestamo.tipoComponente = tipoComponente;
+                            prestamo.proyecto = proyecto;
+                            prestamo.cantidad = cantidad;
+                            listaPrestamos.push_back(prestamo);
+                            // Actualiza la cantidad disponible del tipo de componente
+                            tipo.cantidad -= cantidad;
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    // Si no se encuentra un proyecto que requiera este componente o no hay suficiente cantidad, muestra un mensaje de error
+    cout << "No se puede prestar este componente debido a que no es necesario en ninguno de tus proyectos o no hay suficiente cantidad disponible." << endl;
+    return false;
+}

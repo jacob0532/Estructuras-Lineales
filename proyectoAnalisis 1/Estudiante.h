@@ -34,6 +34,7 @@ public:
     
     // Método para obtener una representación en string del estudiante
     string ToString();
+    bool SolicitarPrestamo(Componente tipoComponente, int cantidad);
 };
 
 #endif  // ESTUDIANTE_H
