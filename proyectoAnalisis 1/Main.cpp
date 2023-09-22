@@ -364,7 +364,37 @@ void InsertarTipo(DatosSistema& datosSistema) {
 }
 
 
+//FUNCIONES DE CONSULTA
 
+Curso findCourseWithMostComponents(const std::list<Curso>& listaCursos) {
+    Curso cursoWithMostComponents;
+    int maxComponents = 0;
+
+    for (const auto& curso : listaCursos) {
+        int numComponents = curso.listaComponentes.size();
+        if (numComponents > maxComponents) {
+            maxComponents = numComponents;
+            cursoWithMostComponents = curso;
+        }
+    }
+
+    return cursoWithMostComponents;
+}
+
+Estudiante findStudentWithMostProjects(const std::list<Estudiante>& listaEstudiantes) {
+    Estudiante estudianteWithMostProjects;
+    int maxProjects = 0;
+
+    for (const auto& estudiante : listaEstudiantes) {
+        int numProjects = estudiante.listaProyectos.size();
+        if (numProjects > maxProjects) {
+            maxProjects = numProjects;
+            estudianteWithMostProjects = estudiante;
+        }
+    }
+
+    return estudianteWithMostProjects;
+}
 
 void menuInserciones(){
     int opcionInserciones;

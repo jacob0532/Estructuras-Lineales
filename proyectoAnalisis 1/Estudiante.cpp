@@ -37,7 +37,7 @@ bool Estudiante::SolicitarPrestamo(Componente tipoComponente, int cantidad) {
         // Busca el proyecto asociado a este curso
         for (const Proyecto& proyecto : curso.listaProyectos) {
             // Verifica si el tipo de componente es requerido en este proyecto
-            for (const ComponenteRequerido& componenteRequerido : proyecto.ComponentesRequeridos) {
+            for (const ComponenteRequerido& componenteRequerido : proyecto.compRequeridos) {
                 if (componenteRequerido.tipoComponente.codigo == tipoComponente.codigo &&
                     cantidad <= componenteRequerido.cantMinRequerida) {
                     // Busca el tipo de componente en la lista de tipos
