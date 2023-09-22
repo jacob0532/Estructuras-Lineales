@@ -8,7 +8,11 @@
 #include <list>
 
 using namespace std;
-
+/*
+Fecha de inicio: 13/9/2023
+Fecha última modificación: 13/9/2023 .
+Descripción para cada estructura (clase) y su uso en el programa,
+Describir cada función e instrucciones dentro de estas.*/
 // Definición del struct PrestamoTiposC
 struct PrestamoTiposC {
     // Atributos del struct PrestamoTiposC

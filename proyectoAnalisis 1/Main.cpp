@@ -12,6 +12,7 @@
 #include "Proyecto.h"
 #include "Tipos.h"
 #include <algorithm>
+#include <unordered_set> 
 
 using namespace std;
 
@@ -120,7 +121,7 @@ void agregarDatosAlDatosSistema(){
 
         // Assign the list of courses to the Estudiante
         auto endIt = datosSistema.listaCursos.begin();
-        advance(endIt, 3);  // Advance to position 5 (not included)
+        advance(endIt, i);  
         estudiante.listaMatricula.assign(datosSistema.listaCursos.begin(), endIt);
 
         auto it = datosSistema.listaEstudiantes.begin();
@@ -366,34 +367,102 @@ void InsertarTipo(DatosSistema& datosSistema) {
 
 //FUNCIONES DE CONSULTA
 
-Curso findCourseWithMostComponents(const std::list<Curso>& listaCursos) {
-    Curso cursoWithMostComponents;
-    int maxComponents = 0;
 
-    for (const auto& curso : listaCursos) {
-        int numComponents = curso.listaComponentes.size();
-        if (numComponents > maxComponents) {
-            maxComponents = numComponents;
-            cursoWithMostComponents = curso;
-        }
+int countTotalComponents(const std::list<ComponenteRequerido>& compRequeridos) {
+    int totalComponents = 0;
+
+    for (const auto& componente : compRequeridos) {
+        totalComponents += componente.cantMinRequerida;
     }
 
-    return cursoWithMostComponents;
+    return totalComponents;
 }
 
-Estudiante findStudentWithMostProjects(const std::list<Estudiante>& listaEstudiantes) {
-    Estudiante estudianteWithMostProjects;
-    int maxProjects = 0;
+Curso cursoReqMasComponentes() {
+    Curso cursoConMasComponentes;
+    int maxTotalComponents = 0;
 
-    for (const auto& estudiante : listaEstudiantes) {
-        int numProjects = estudiante.listaProyectos.size();
-        if (numProjects > maxProjects) {
-            maxProjects = numProjects;
-            estudianteWithMostProjects = estudiante;
+    for (const auto& curso : datosSistema.listaCursos) {
+        int totalComponents = 0;
+
+
+        for (const auto& proyecto : curso.listaProyectos) {
+            totalComponents += countTotalComponents(proyecto.compRequeridos);
+        }
+
+
+        if (totalComponents > maxTotalComponents) {
+            maxTotalComponents = totalComponents;
+            cursoConMasComponentes = curso;
+        }
+    }
+    cout << cursoConMasComponentes.ToString() << "\n\n";
+    return cursoConMasComponentes;
+}
+
+
+
+
+list<Estudiante> estuConMasProyectos() {
+    list<Estudiante> estConMasProyectos;
+    int maxProyectos = 0;
+
+    for (const auto& estudiante : datosSistema.listaEstudiantes) {
+        int totalProyectos = 0;
+
+        // Calculate the total number of projects for each course in the student's matricula
+        for (const auto& curso : estudiante.listaMatricula) {
+            totalProyectos += curso.listaProyectos.size();
+        }
+
+        if (totalProyectos > maxProyectos) {
+            maxProyectos = totalProyectos;
+            estConMasProyectos.clear();
+            estConMasProyectos.push_back(estudiante);
+        } else if (totalProyectos == maxProyectos) {
+            estConMasProyectos.push_back(estudiante);
         }
     }
 
-    return estudianteWithMostProjects;
+    if (estConMasProyectos.size() > 1) {
+        for (auto& estudiante : estConMasProyectos) {
+            cout << estudiante.ToString() << "\n\n";
+        }
+    }else if (estConMasProyectos.size() == 1) {
+    // Print the information for the student with the most projects
+    cout << "Estudiante con más proyectos (" << maxProyectos << " proyectos):\n";
+    cout << estConMasProyectos.front().ToString() << "\n";
+    } else {
+        cout << "No hay estudiantes con proyectos.\n";
+    }
+
+
+    return estConMasProyectos;
+}
+
+
+ 
+
+Proyecto proyectoConMasTiposComponentes() {
+    Proyecto proyectoConMasTipos;
+    int maxComponentTypes = 0;
+
+    for (const auto& proyecto : datosSistema.listaProyectos) {
+        unordered_set<string> uniqueComponentTypes;
+
+        // Count the unique types of components for this project
+        for (const auto& componenteRequerido : proyecto.compRequeridos) {
+            uniqueComponentTypes.insert(componenteRequerido.tipoComponente.nombre);
+        }
+
+        // Update the project with the most unique component types
+        if (uniqueComponentTypes.size() > maxComponentTypes) {
+            maxComponentTypes = uniqueComponentTypes.size();
+            proyectoConMasTipos = proyecto;
+        }
+    }
+    cout << proyectoConMasTipos.ToString() << "\n\n";
+    return proyectoConMasTipos;
 }
 
 void menuInserciones(){
@@ -586,6 +655,10 @@ void menu(){
             case 1:
                 //menuInserciones();
                 agregarDatosAlDatosSistema();
+
+                //cursoReqMasComponentes();
+                //estuConMasProyectos();
+                //proyectoConMasTiposComponentes();
                 /*for (auto& tipo : datosSistema.listaTipos) {
                     cout << tipo.ToString() << "\n\n";
                 }*/
@@ -595,9 +668,9 @@ void menu(){
                 /*for (const auto& proyecto : datosSistema.listaProyectos) {
                     cout << proyecto.ToString() << "\n\n";
                 }*/
-                for (auto& estudiante : datosSistema.listaEstudiantes) {
+                /*for (auto& estudiante : datosSistema.listaEstudiantes) {
                     cout << estudiante.ToString() << "\n\n";
-                }
+                }*/
                 /*for (auto& curso : datosSistema.listaCursos) {
                     cout << curso.ToString() << "\n\n";
                 }*/

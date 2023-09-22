@@ -8,7 +8,11 @@
 #include "Componente.h" 
 
 using namespace std;
-
+/*
+Fecha de inicio: 15/9/2023
+Fecha última modificación: 15/9/2023 .
+Descripción para cada estructura (clase) y su uso en el programa,
+Describir cada función e instrucciones dentro de estas.*/
 class ListaMorosos {
 public:
     list<Estudiante> estudiantes;
