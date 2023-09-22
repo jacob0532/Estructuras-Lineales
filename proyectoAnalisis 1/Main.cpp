@@ -9,6 +9,7 @@
 #include "ListaMorosos.h"
 #include "Proyecto.h"
 #include "Tipos.h"
+#include <algorithm>
 
 using namespace std;
 
@@ -95,6 +96,242 @@ void agregarDatosAlDatosSistema(){
         sistema.listaCursos.push_front(curso);
     }*/
 }
+
+void InsertarEstudiante(DatosSistema& datosSistema) {
+    string carnet, nombre, apellido, cedula, lugarResidencia;
+    int edad;
+
+    cout << "Ingrese el carnet del estudiante: ";
+    cin >> carnet;
+
+    cout << "Ingrese el nombre del estudiante: ";
+    cin.ignore();
+    getline(cin, nombre);
+
+    cout << "Ingrese el apellido del estudiante: ";
+    getline(cin, apellido);
+
+    cout << "Ingrese la cédula del estudiante: ";
+    cin >> cedula;
+
+    cout << "Ingrese la edad del estudiante: ";
+    cin >> edad;
+
+    cout << "Ingrese el lugar de residencia del estudiante: ";
+    cin.ignore();
+    getline(cin, lugarResidencia);
+
+    Estudiante nuevoEstudiante(carnet, nombre, apellido, cedula, edad, lugarResidencia);
+
+    // Agregar el estudiante a la lista de estudiantes dentro de la estructura DatosSistema
+    datosSistema.listaEstudiantes.push_back(nuevoEstudiante);
+
+    cout << "Estudiante ingresado correctamente." << endl;
+}
+
+void InsertarCurso(DatosSistema& datosSistema) {
+    string codigo, nombre;
+    int creditos;
+
+    cout << "Ingrese el código del curso: ";
+    cin >> codigo;
+
+    cout << "Ingrese el nombre del curso: ";
+    cin.ignore();
+    getline(cin, nombre);
+
+    cout << "Ingrese el número de créditos del curso: ";
+    cin >> creditos;
+
+    // Crear una instancia de Curso con los datos ingresados
+    Curso nuevoCurso(codigo, nombre, creditos, list<Proyecto>()); // La lista de proyectos se inicializa vacía
+
+    // Agregar el curso a la lista de cursos en la estructura DatosSistema
+    datosSistema.listaCursos.push_back(nuevoCurso);
+
+    cout << "Curso ingresado correctamente." << endl;
+}
+
+void InsertarComponente(DatosSistema& datosSistema) {
+    string codigo, nombre, descripcion, aplicaciones;
+    Clasificacion clasificacion;
+
+    cout << "Ingrese el código del componente: ";
+    cin >> codigo;
+
+    cout << "Ingrese el nombre del componente: ";
+    cin.ignore();
+    getline(cin, nombre);
+
+    cout << "Ingrese la descripción del componente: ";
+    getline(cin, descripcion);
+
+    cout << "Ingrese las aplicaciones del componente: ";
+    getline(cin, aplicaciones);
+
+    cout << "Seleccione la clasificación del componente (0 para ACTIVO, 1 para PASIVO): ";
+    int clasif;
+    cin >> clasif;
+    clasificacion = static_cast<Clasificacion>(clasif);
+
+    // Crear una instancia de Componente con los datos ingresados
+    Componente nuevoComponente(codigo, nombre, descripcion, clasificacion, aplicaciones);
+
+    // Agregar el componente a la lista de componentes en la estructura DatosSistema
+    datosSistema.listaComponentes.push_back(nuevoComponente);
+
+    cout << "Componente ingresado correctamente." << endl;
+}
+
+void InsertarProyecto(DatosSistema& datosSistema) {
+    string nombre, descripcion;
+    double valorPorcentual;
+
+    cout << "Ingrese el nombre del proyecto: ";
+    cin.ignore();
+    getline(cin, nombre);
+
+    cout << "Ingrese la descripción del proyecto: ";
+    getline(cin, descripcion);
+
+    cout << "Ingrese el valor porcentual del proyecto: ";
+    cin >> valorPorcentual;
+
+    // Crear una instancia de Proyecto con los datos ingresados
+    Proyecto nuevoProyecto(nombre, descripcion, valorPorcentual);
+
+    // Agregar el proyecto a la lista de proyectos en la estructura DatosSistema
+    datosSistema.listaProyectos.push_back(nuevoProyecto);
+
+    cout << "Proyecto ingresado correctamente." << endl;
+}
+
+void InsertarEstudianteListaEspera(DatosSistema& datosSistema) {
+    string carnet;
+    Componente tipoComponente;
+    int cantidad;
+
+    cout << "Ingrese el carnet del estudiante: ";
+    cin >> carnet;
+
+    // Buscar el estudiante en la lista de estudiantes dentro de datosSistema
+    auto itEstudiante = find_if(datosSistema.listaEstudiantes.begin(), datosSistema.listaEstudiantes.end(),
+        [carnet](const Estudiante& estudiante) {
+            return estudiante.carnet == carnet;
+        });
+
+    if (itEstudiante == datosSistema.listaEstudiantes.end()) {
+        cout << "Estudiante no encontrado. Verifique el carnet." << endl;
+        return;
+    }
+
+    cout << "Ingrese el código del tipo de componente: ";
+    cin >> tipoComponente.codigo;
+
+    // Buscar el tipo de componente en la lista de componentes dentro de datosSistema
+    auto itTipoComponente = find_if(datosSistema.listaComponentes.begin(), datosSistema.listaComponentes.end(),
+        [tipoComponente](const Componente& componente) {
+            return componente.codigo == tipoComponente.codigo;
+        });
+
+    if (itTipoComponente == datosSistema.listaComponentes.end()) {
+        cout << "Tipo de componente no encontrado. Verifique el código." << endl;
+        return;
+    }
+
+    cout << "Ingrese la cantidad deseada: ";
+    cin >> cantidad;
+
+    // Agregar el estudiante, tipo de componente y cantidad a la lista de espera
+    datosSistema.listaEspera.estudiantes.push_back(*itEstudiante);
+    datosSistema.listaEspera.tiposComponentes.push_back(*itTipoComponente);
+    datosSistema.listaEspera.cantidad.push_back(cantidad);
+
+    cout << "Estudiante agregado a la lista de espera correctamente." << endl;
+}
+
+void InsertarListaMorosos(DatosSistema& datosSistema) {
+    string carnet, codigoComponente;
+    int cantidadPendiente;
+
+    cout << "Ingrese el carnet del estudiante moroso: ";
+    cin >> carnet;
+
+    // Buscar al estudiante en la lista de estudiantes
+    auto itEstudiante = find_if(datosSistema.listaEstudiantes.begin(), datosSistema.listaEstudiantes.end(),
+        [carnet](const Estudiante& estudiante) {
+            return estudiante.carnet == carnet;
+        });
+
+    if (itEstudiante == datosSistema.listaEstudiantes.end()) {
+        cout << "Estudiante no encontrado. Verifique el carnet." << endl;
+        return; // Salir de la función si el estudiante no se encuentra
+    }
+
+    cout << "Ingrese el código del tipo de componente por el cual está en deuda: ";
+    cin >> codigoComponente;
+
+    // Buscar el tipo de componente en la lista de componentes
+    auto itComponente = find_if(datosSistema.listaComponentes.begin(), datosSistema.listaComponentes.end(),
+        [codigoComponente](const Componente& componente) {
+            return componente.codigo == codigoComponente;
+        });
+
+    if (itComponente == datosSistema.listaComponentes.end()) {
+        cout << "Tipo de componente no encontrado. Verifique el código." << endl;
+        return; // Salir de la función si el tipo de componente no se encuentra
+    }
+
+    cout << "Ingrese la cantidad pendiente: ";
+    cin >> cantidadPendiente;
+
+    // Llamar a la función para agregar al estudiante a la lista de morosos
+    datosSistema.listaMorosos.AgregarMoroso(*itEstudiante, *itComponente, cantidadPendiente);
+    cout << "Estudiante agregado a la lista de morosos correctamente." << endl;
+}
+
+void InsertarTipo(DatosSistema& datosSistema) {
+    string codigo, nombre, descripcion, dondeSeUtilizan;
+    int cantidad;
+
+    cout << "Ingrese el código del tipo: ";
+    cin >> codigo;
+
+    // Verificar si el código del tipo ya existe en la lista de tipos
+    auto itTipoExistente = find_if(datosSistema.listaTipos.begin(), datosSistema.listaTipos.end(),
+        [codigo](const Tipos& tipo) {
+            return tipo.codigo == codigo;
+        });
+
+    if (itTipoExistente != datosSistema.listaTipos.end()) {
+        cout << "El código del tipo ya existe. No se puede duplicar." << endl;
+        return; // Salir de la función si ya existe el código del tipo
+    }
+
+    cout << "Ingrese el nombre del tipo: ";
+    cin >> nombre;
+
+    cout << "Ingrese la descripción del tipo: ";
+    cin >> descripcion;
+
+    cout << "Ingrese dónde se utilizan este tipo: ";
+    cin >> dondeSeUtilizan;
+
+    cout << "Ingrese la cantidad disponible de este tipo: ";
+    cin >> cantidad;
+
+    // Crear un objeto de tipo Tipos con los datos ingresados
+    Tipos nuevoTipo(codigo, nombre, descripcion, dondeSeUtilizan, cantidad);
+
+    // Agregar el nuevo tipo a la lista de tipos
+    datosSistema.listaTipos.push_back(nuevoTipo);
+
+    cout << "Tipo agregado correctamente." << endl;
+}
+
+
+
+
 void menuInserciones(){
     int opcionInserciones;
     bool salirInserciones = false;
@@ -115,24 +352,31 @@ void menuInserciones(){
         switch(opcionInserciones){
             case 1:
                 cout << "Insertar Estudiante." << endl;
+                InsertarEstudiante(datosSistema);
                 break;
             case 2:
                 cout << "Insertar Curso." << endl;
+                InsertarCurso(datosSistema);
                 break;
             case 3:
                 cout << "Insertar Componente." << endl;
+                InsertarComponente(datosSistema);
                 break;
             case 4:
                 cout << "Insertar Proyecto." << endl;
+                InsertarProyecto(datosSistema);
                 break;
             case 5:
                 cout << "Insertar Lista de Espera." << endl;
+                InsertarEstudianteListaEspera(datosSistema);
                 break;
             case 6:
                 cout << "Insertar Lista de Morosos." << endl;
+                InsertarListaMorosos(datosSistema);
                 break;
             case 7:
                 cout << "Insertar Tipos." << endl;
+                InsertarTipo(datosSistema);
                 break;
             case 8:
                 salirInserciones = true;
@@ -276,7 +520,7 @@ void menu(){
         cin>>opcionMenu;
         switch(opcionMenu){
             case 1:
-                //menuInserciones();
+                menuInserciones();
                 break;
             case 2:
                 menuEdiciones();
