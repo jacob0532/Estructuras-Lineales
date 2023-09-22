@@ -24,7 +24,15 @@ string Componente::ToString() const{
 
     componenteString += "Aplicaciones: " + aplicaciones + "\n";
 
-    // Agregar lógica para convertir la lista de Tipos a string si es necesario
+    componenteString += "Tipos:\n";
+    for (auto& tipo : tipos) {
+        componenteString += "\tCodigo: " + tipo.codigo + "\n";
+        componenteString += "\tNombre: " + tipo.nombre + "\n";
+        componenteString += "\tDescripcion: " + tipo.descripcion + "\n";
+        componenteString += "\tDonde se utilizan: " + tipo.dondeSeUtilizan + "\n";
+        componenteString += "\tCantidad: " + to_string(tipo.cantidad) + "\n";
+        componenteString += "\n";
+    }
 
     return componenteString;
 }

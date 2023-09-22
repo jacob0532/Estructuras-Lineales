@@ -18,7 +18,7 @@ public:
     string nombre;
     string descripcion;
     double valorPorcentual;
-    list<ComponenteRequerido> ComponentesRequeridos;
+    list<ComponenteRequerido> compRequeridos;
 
 public:
     Proyecto() = default;

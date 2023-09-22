@@ -2,6 +2,8 @@
 #include <string>
 #include <list>
 #include <stdlib.h>
+#include <cstdlib> 
+#include <ctime>   
 #include "Curso.h"
 #include "Estudiante.h"
 #include "Componente.h"
@@ -47,6 +49,7 @@ void agregarDatosAlDatosSistema(){
 
         // Crear un objeto Componente utilizando el constructor
         Componente componente(codigo, nombre, descripcion, clasificacion, aplicaciones);
+        componente.tipos = datosSistema.listaTipos;
 
         // Insertar el componente al final de la lista
         datosSistema.listaComponentes.push_back(componente);
@@ -63,19 +66,61 @@ void agregarDatosAlDatosSistema(){
 
         // Crear un objeto Componente utilizando el constructor
         Componente componente(codigo, nombre, descripcion, clasificacion, aplicaciones);
+        componente.tipos = datosSistema.listaTipos;
 
         // Insertar el componente al final de la lista
         datosSistema.listaComponentes.push_back(componente);
     }
-    /*for (int i = 1; i <= 10; ++i) {
+    for (int i = 1; i <= 10; ++i) {
+        string nombre = "Proyecto" + to_string(i);
+        string descripcion = "Descripción del proyecto " + to_string(i);
+        double valorPorcentual = 1;
+
+        // Crear un objeto Proyecto utilizando el constructor
+        Proyecto proyecto(nombre, descripcion, valorPorcentual);
+
+        ComponenteRequerido componenteRequerido;
+        srand(static_cast<unsigned int>(std::time(nullptr)));
+        int numeroAleatorio = rand() % 10;
+        auto it = datosSistema.listaComponentes.begin();
+        advance(it, numeroAleatorio);
+        componenteRequerido.tipoComponente = *it;
+        componenteRequerido.cantMinRequerida = i * 2;
+        proyecto.compRequeridos.push_back(componenteRequerido);
+        datosSistema.listaProyectos.push_back(proyecto);
+    }
+    
+    // Agregar proyectos específicos de datosSistema.listaProyectos a la lista de proyectos del curso
+    list<Proyecto> proyectos;
+    auto it = datosSistema.listaProyectos.begin();
+    for (int i = 1; i <= 10; ++i) {
+        string codigo = "C" + to_string(i);
+        string nombre = "CursoElectro" + to_string(i);
+        int creditos = 3 + i;
+        proyectos.push_back(*it);
+        Curso curso(codigo, nombre, creditos, proyectos);
+        // Insertar el curso al inicio de la lista
+        datosSistema.listaCursos.push_front(curso);
+        it++;
+        proyectos.clear();
+    }
+    string nombres[] = {"Alice", "Bob", "Charlie", "David", "Eve", "Frank", "Grace", "Hannah", "Ivan", "Jack"};
+    for (int i = 1; i <= 10; ++i) {
         string carnet = to_string(10 + i) + "2020";
-        string nombre = "Nombre" + to_string(i);
+        string nombre = nombres[i - 1];
         string apellido = "Apellido" + to_string(i);
         string cedula = "20365" + to_string(1000 + i);
         int edad = 20 + i;
-        string lugarResidencia = "SanJose";
+        string lugarResidencia = "SanJose" + to_string(i);
 
         Estudiante estudiante(carnet, nombre, apellido, cedula, edad, lugarResidencia);
+
+
+
+        // Assign the list of courses to the Estudiante
+        auto endIt = datosSistema.listaCursos.begin();
+        advance(endIt, 3);  // Advance to position 5 (not included)
+        estudiante.listaMatricula.assign(datosSistema.listaCursos.begin(), endIt);
 
         auto it = datosSistema.listaEstudiantes.begin();
         while (it != datosSistema.listaEstudiantes.end() && it->carnet > carnet) {
@@ -83,17 +128,6 @@ void agregarDatosAlDatosSistema(){
         }
         datosSistema.listaEstudiantes.insert(it, estudiante);
     }
-    for (int i = 1; i <= 10; ++i) {
-        string codigo = "C" + to_string(i);
-        string nombre = "Curso" + to_string(i);
-        int creditos = 3 + i;
-
-        // Crear un objeto Curso utilizando el constructor
-        Curso curso(codigo, nombre, creditos, list<Proyecto>());
-
-        // Insertar el curso al inicio de la lista
-        sistema.listaCursos.push_front(curso);
-    }*/
 }
 void menuInserciones(){
     int opcionInserciones;
@@ -277,6 +311,22 @@ void menu(){
         switch(opcionMenu){
             case 1:
                 //menuInserciones();
+                agregarDatosAlDatosSistema();
+                /*for (auto& tipo : datosSistema.listaTipos) {
+                    cout << tipo.ToString() << "\n\n";
+                }*/
+                /*for (auto& componente : datosSistema.listaComponentes) {
+                    cout << componente.ToString() << "\n\n";
+                }*/
+                /*for (const auto& proyecto : datosSistema.listaProyectos) {
+                    cout << proyecto.ToString() << "\n\n";
+                }*/
+                for (auto& estudiante : datosSistema.listaEstudiantes) {
+                    cout << estudiante.ToString() << "\n\n";
+                }
+                /*for (auto& curso : datosSistema.listaCursos) {
+                    cout << curso.ToString() << "\n\n";
+                }*/
                 break;
             case 2:
                 menuEdiciones();

@@ -15,13 +15,13 @@ string Estudiante::ToString() {
     info += "Lugar de Residencia: " + lugarResidencia + "\n";
 
     // Convertir lista de matrículas a string
-    info += "Lista de Matrículas:\n";
+    info += "Lista de Matriculas:\n";
     for (const Curso& curso : listaMatricula) {
         info += "\t" + curso.ToString() + "\n";
     }
 
     // Convertir lista de préstamos a string
-    info += "Lista de Préstamos:\n";
+    info += "Lista de Prestamos:\n";
     for (const PrestamoTiposC& prestamo : listaPrestamos) {
         info += "\tTipo de Componente: " + prestamo.tipoComponente.ToString() + "\n";
         info += "\tProyecto: " + prestamo.proyecto.ToString() + "\n";
@@ -30,4 +30,6 @@ string Estudiante::ToString() {
 
     return info;
 }
+
+//A un estudiante no se le prestará un tipo de componente que no requiera en algún proyecto de sus cursos matriculados.
 
