@@ -1,7 +1,7 @@
-#include "ListaEspera.h"
+#include "ListaEspera.h"  //se incluyen las librerías neceasarias
 #include <iostream>
 
-// Método para obtener una representación en string de la lista de espera
+// Método que permite obtener una representación en string de la lista de espera
 string ListaEspera::ToString() {
     string listaString = "Lista de Espera:\n";
 
@@ -21,6 +21,6 @@ string ListaEspera::ToString() {
         ++tipoComponenteIter;
         ++cantidadIter;
     }
-
+    //se retorna el string
     return listaString;
 }

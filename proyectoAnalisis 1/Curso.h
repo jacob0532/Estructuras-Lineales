@@ -10,8 +10,10 @@ using namespace std;
 /*
 Fecha de inicio: 13/9/2023
 Fecha última modificación: 13/9/2023 .
-Descripción para cada estructura (clase) y su uso en el programa,
-Describir cada función e instrucciones dentro de estas.*/
+Esta clase representa los cursos dentro del sistema.
+*/
+
+//se definen los atributos de la clase
 class Curso {
 public:
     string codigo;
@@ -19,11 +21,12 @@ public:
     int creditos;
     list<Proyecto> listaProyectos;
 
+//se declaran los metodos y el constructor
 public:
     Curso() = default;
-    Curso(string codigo, string nombre, int creditos, list<Proyecto> listaProyectos);
+    Curso(string codigo, string nombre, int creditos, list<Proyecto> listaProyectos);//constructor
     
-    // Método para obtener una representación en string del curso
+    // Método que permie obtener una representación en string del curso
     string ToString() const;
 };
 

@@ -11,16 +11,18 @@ using namespace std;
 /*
 Fecha de inicio: 13/9/2023
 Fecha última modificación: 13/9/2023 .
-Descripción para cada estructura (clase) y su uso en el programa,
-Describir cada función e instrucciones dentro de estas.*/
+Esta clase representa a los estudiantes dentro del programa
+*/
+
 // Definición del struct PrestamoTiposC
 struct PrestamoTiposC {
-    // Atributos del struct PrestamoTiposC
+    // Atributos del struct 
     Componente tipoComponente;
     Proyecto proyecto;
     int cantidad;
 };
 
+//Atributos de la clase Estudiante
 class Estudiante {
 public:
     string carnet;
@@ -34,10 +36,11 @@ public:
 
 public:
     Estudiante() = default;
-    Estudiante(string carnet, string nombre, string apellido, string cedula, int edad, string lugarResidencia);
+    Estudiante(string carnet, string nombre, string apellido, string cedula, int edad, string lugarResidencia); //constructor de la clase Estudiante
     
-    // Método para obtener una representación en string del estudiante
+    // Método permite obtener una representación en string del estudiante
     string ToString();
+    //Método que permite al estudiante solicitar un prestamo
     bool SolicitarPrestamo(Componente tipoComponente, int cantidad);
 };
 

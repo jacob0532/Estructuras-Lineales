@@ -3,15 +3,19 @@
 
 #include <string>
 #include <list>
-#include "Estudiante.h" // Incluimos el encabezado de Estudiante
-#include "Componente.h" // Incluimos el encabezado de Componente
+#include "Estudiante.h" 
+#include "Componente.h" 
 
 using namespace std;
 /*
 Fecha de inicio: 13/9/2023
 Fecha última modificación: 13/9/2023 .
-Descripción para cada estructura (clase) y su uso en el programa,
-Describir cada función e instrucciones dentro de estas.*/
+Esta clase representa la lista de espera
+de estudiantes que solicitaron un componente
+dentro del sistema. 
+*/
+
+//Se definen los atributos que utiliza la clase ListaEspera
 class ListaEspera {
 public:
     list<Estudiante> estudiantes;
@@ -19,9 +23,9 @@ public:
     list<int> cantidad;
 
 public:
-    ListaEspera() = default;
+    ListaEspera() = default; //se utiliza el constructor por defecto
 
-    // Método para obtener una representación en string de la lista de espera
+    // Método que permite obtener una representación en string de la lista de espera
     string ToString();
 };
 

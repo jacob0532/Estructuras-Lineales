@@ -12,8 +12,9 @@ using namespace std;
 /*
 Fecha de inicio: 13/9/2023
 Fecha última modificación: 13/9/2023 .
-Descripción para cada estructura (clase) y su uso en el programa,
-Describir cada función e instrucciones dentro de estas.*/
+Esta clse se encarga de representar los componentes
+dentro del contexto del programa
+*/
 
 // Definición del enumerado para la clasificación
 enum Clasificacion {
@@ -21,20 +22,21 @@ enum Clasificacion {
     PASIVO
 };
 
+//Se definen los atributos que utiliza la clase Componente
 class Componente {
 public:
     string codigo;
     string nombre;
     string descripcion;
-    Clasificacion clasificacion; // Utilizamos el enumerado Clasificacion
+    Clasificacion clasificacion; 
     string aplicaciones;
-    list<Tipos> tipos; // Cambiamos el nombre de la lista a "tipos"
+    list<Tipos> tipos; 
 
 public:
     Componente() = default;
-    Componente(string codigo, string nombre, string descripcion, Clasificacion clasificacion, string aplicaciones);
+    Componente(string codigo, string nombre, string descripcion, Clasificacion clasificacion, string aplicaciones); //se define el constructor
     
-    // Método para obtener una representación en string del componente
+    // Este método permite obtener una representación en string del componente
     string ToString() const;
 };
 

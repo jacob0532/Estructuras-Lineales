@@ -1,15 +1,15 @@
-#include "Proyecto.h"
+#include "Proyecto.h"  //se incluyen las librerías neceasarias
 #include <iostream>
 
 using namespace std;
 
 
-
+//Constructor de la clase Proyecto
 Proyecto::Proyecto(string nombre, string descripcion, double valorPorcentual)
     : nombre(nombre), descripcion(descripcion), valorPorcentual(valorPorcentual) {
 }
 
-// Método para obtener una representación en string del proyecto
+// Método que permite obtener una representación en string del proyecto
 string Proyecto::ToString() const{
     string proyectoString = "Nombre: " + nombre + "\n";
     proyectoString += "Descripcion: " + descripcion + "\n";

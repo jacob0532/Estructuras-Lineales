@@ -1,13 +1,14 @@
-#include "Componente.h"
+#include "Componente.h"   //se incluyen las librerías neceasarias 
 #include <iostream>
 
 using namespace std;
 
+//Constructor de la clase Componente
 Componente::Componente(string codigo, string nombre, string descripcion, Clasificacion clasificacion, string aplicaciones)
     : codigo(codigo), nombre(nombre), descripcion(descripcion), clasificacion(clasificacion), aplicaciones(aplicaciones) {
 }
 
-// Método para obtener una representación en string del componente
+// Método que permite obtener una representación en string del componente para facilitar su impresion.
 string Componente::ToString() const{
     string componenteString = "Codigo: " + codigo + "\n";
     componenteString += "Nombre: " + nombre + "\n";
@@ -33,6 +34,6 @@ string Componente::ToString() const{
         componenteString += "\tCantidad: " + to_string(tipo.cantidad) + "\n";
         componenteString += "\n";
     }
-
+    //retorna la informacion como un solo string
     return componenteString;
 }

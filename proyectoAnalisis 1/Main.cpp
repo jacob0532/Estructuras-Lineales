@@ -1,4 +1,4 @@
-#include <iostream>
+#include <iostream>         //se incluyen las librerías neceasarias
 #include <string>
 #include <list>
 #include <stdlib.h>
@@ -16,7 +16,7 @@
 
 using namespace std;
 
-
+//Se definen las lista para trabajar en el programa
 struct DatosSistema {
     list<Componente> listaComponentes;
     list<Curso> listaCursos;
@@ -29,6 +29,7 @@ struct DatosSistema {
 
 DatosSistema datosSistema;  // Instancia de DatosDatosSistema
 
+//Funcion que permite agregar los datos necesarios al inciar el programa.
 void agregarDatosAlDatosSistema(){
     for (int i = 1; i <= 5; ++i) {
         string codigo = "T" + to_string(i);
@@ -57,7 +58,7 @@ void agregarDatosAlDatosSistema(){
         datosSistema.listaComponentes.push_back(componente);
     }
 
-    // Nombres realistas para componentes eléctricos activos
+    // Nombres para componentes eléctricos activos
     string nombresActivos[] = {"Transistor", "Amplificador operacional", "Diodo emisor de luz (LED)", "Triac", "Optoacoplador"};
     for (int i = 0; i < 5; ++i) {
         string codigo = "CA" + to_string(i + 1);
@@ -92,7 +93,7 @@ void agregarDatosAlDatosSistema(){
         datosSistema.listaProyectos.push_back(proyecto);
     }
     
-    // Agregar proyectos específicos de datosSistema.listaProyectos a la lista de proyectos del curso
+    // Agregar proyectos la lista de proyectos del curso
     list<Proyecto> proyectos;
     auto it = datosSistema.listaProyectos.begin();
     for (int i = 1; i <= 10; ++i) {
@@ -117,9 +118,7 @@ void agregarDatosAlDatosSistema(){
 
         Estudiante estudiante(carnet, nombre, apellido, cedula, edad, lugarResidencia);
 
-
-
-        // Assign the list of courses to the Estudiante
+        // Asignar una lista de cursos al estuidiante
         auto endIt = datosSistema.listaCursos.begin();
         advance(endIt, i);  
         estudiante.listaMatricula.assign(datosSistema.listaCursos.begin(), endIt);
@@ -132,6 +131,7 @@ void agregarDatosAlDatosSistema(){
     }
 }
 
+//Funcion que permite insertar un estudiane al sistema, lo incluye en la lista de estudiantes definida el inicio.
 void InsertarEstudiante(DatosSistema& datosSistema) {
     string carnet, nombre, apellido, cedula, lugarResidencia;
     int edad;
@@ -164,6 +164,7 @@ void InsertarEstudiante(DatosSistema& datosSistema) {
     cout << "Estudiante ingresado correctamente." << endl;
 }
 
+//Funcion que permite insertar un Curso al sistema, lo incluye en la lista de cursos definida el inicio.
 void InsertarCurso(DatosSistema& datosSistema) {
     string codigo, nombre;
     int creditos;
@@ -187,6 +188,7 @@ void InsertarCurso(DatosSistema& datosSistema) {
     cout << "Curso ingresado correctamente." << endl;
 }
 
+//Funcion que permite insertar un componente al sistema, lo incluye en la lista de componentes definida el inicio.
 void InsertarComponente(DatosSistema& datosSistema) {
     string codigo, nombre, descripcion, aplicaciones;
     Clasificacion clasificacion;
@@ -218,6 +220,7 @@ void InsertarComponente(DatosSistema& datosSistema) {
     cout << "Componente ingresado correctamente." << endl;
 }
 
+//Funcion que permite insertar un proyectos al sistema, lo incluye en la lista de proyectos definida el inicio.
 void InsertarProyecto(DatosSistema& datosSistema) {
     string nombre, descripcion;
     double valorPorcentual;
@@ -241,6 +244,7 @@ void InsertarProyecto(DatosSistema& datosSistema) {
     cout << "Proyecto ingresado correctamente." << endl;
 }
 
+//Funcion que permite insertar un estudiane y el componente solicitado en una lista de espera, lo incluye en la lista de espera definida el inicio.
 void InsertarEstudianteListaEspera(DatosSistema& datosSistema) {
     string carnet;
     Componente tipoComponente;
@@ -285,6 +289,7 @@ void InsertarEstudianteListaEspera(DatosSistema& datosSistema) {
     cout << "Estudiante agregado a la lista de espera correctamente." << endl;
 }
 
+//Funcion que permite insertar un estudiane en una lista de morosos, lo incluye en la lista de morosos definida el inicio.
 void InsertarListaMorosos(DatosSistema& datosSistema) {
     string carnet, codigoComponente;
     int cantidadPendiente;
@@ -321,10 +326,11 @@ void InsertarListaMorosos(DatosSistema& datosSistema) {
     cin >> cantidadPendiente;
 
     // Llamar a la función para agregar al estudiante a la lista de morosos
-    datosSistema.listaMorosos.AgregarMoroso(*itEstudiante, *itComponente, cantidadPendiente);
-    cout << "Estudiante agregado a la lista de morosos correctamente." << endl;
+    //datosSistema.listaMorosos.AgregarMoroso(*itEstudiante, *itComponente, cantidadPendiente);
+    //cout << "Estudiante agregado a la lista de morosos correctamente." << endl;
 }
 
+//Funcion que permite insertar un tipo de componente al sistema, lo incluye en la lista de tipos definida el inicio.
 void InsertarTipo(DatosSistema& datosSistema) {
     string codigo, nombre, descripcion, dondeSeUtilizan;
     int cantidad;
@@ -367,6 +373,7 @@ void InsertarTipo(DatosSistema& datosSistema) {
 
 //FUNCIONES DE CONSULTA
 
+//Funcion que permite contabilizar el total de componentes
 int countTotalComponents(const std::list<ComponenteRequerido>& compRequeridos) {
     int totalComponents = 0;
 
@@ -377,6 +384,7 @@ int countTotalComponents(const std::list<ComponenteRequerido>& compRequeridos) {
     return totalComponents;
 }
 
+//Funcion que permite la primera consulta: curso que requiere mas componentes.
 Curso cursoReqMasComponentes() {
     Curso cursoConMasComponentes;
     int maxTotalComponents = 0;
@@ -399,7 +407,7 @@ Curso cursoReqMasComponentes() {
     return cursoConMasComponentes;
 }
 
-
+//Funcion que permite la segunda consulta: estudiante con mas proyectos asignados
 list<Estudiante> estuConMasProyectos() {
     list<Estudiante> estConMasProyectos;
     int maxProyectos = 0;
@@ -437,7 +445,7 @@ list<Estudiante> estuConMasProyectos() {
     return estConMasProyectos;
 }
 
-
+//Funcion que permite la tercera consulta: proyecto que requiere más tipos de componentes
 Proyecto proyectoConMasTiposComponentes() {
     Proyecto proyectoConMasTipos;
     int maxComponentTypes = 0;
@@ -445,12 +453,12 @@ Proyecto proyectoConMasTiposComponentes() {
     for (const auto& proyecto : datosSistema.listaProyectos) {
         unordered_set<string> uniqueComponentTypes;
 
-        // Count the unique types of components for this project
+        // Cuenta los tipos unico de componentesr para el proyecto
         for (const auto& componenteRequerido : proyecto.compRequeridos) {
             uniqueComponentTypes.insert(componenteRequerido.tipoComponente.nombre);
         }
 
-        // Update the project with the most unique component types
+        // Actualiza el proyecto con más tipos de componentes unicos
         if (uniqueComponentTypes.size() > maxComponentTypes) {
             maxComponentTypes = uniqueComponentTypes.size();
             proyectoConMasTipos = proyecto;
@@ -460,6 +468,7 @@ Proyecto proyectoConMasTiposComponentes() {
     return proyectoConMasTipos;
 }
 
+//Es el submenu de las inserciones permitidas
 void menuInserciones(){
     int opcionInserciones;
     bool salirInserciones = false;
@@ -516,6 +525,7 @@ void menuInserciones(){
     }
 }
 
+//Es el submenu de las ediciones permitidas
 void menuEdiciones(){
     int opcionEdicion;
     bool salirEdicion = false;
@@ -545,6 +555,7 @@ void menuEdiciones(){
     }
 }
 
+////Es el submenu de las consulas que puede realizar el usuario
 void consultas(){
     int opcionConsulta;
     bool salirConsutla = false;
@@ -594,6 +605,7 @@ void consultas(){
     }
 }
 
+//Funcion que genera el primer reporte: informacion de todas las listas con sublistas respectivas
 void GenerarReporte() {
     // Imprime la información de la lista de estudiantes
     cout << "=== Lista de Estudiantes ===" << endl;
@@ -634,6 +646,7 @@ void GenerarReporte() {
     cout << datosSistema.listaMorosos.ToString() << "\n\n";
 }
 
+//Funcion que permite generar el segundo reporte: imprimir estudiantes sin matricula
 void GenerarReporteEstudiantesSinMatricula() {
     cout << "=== Estudiantes sin Matrícula ===" << endl;
     
@@ -653,6 +666,7 @@ void GenerarReporteEstudiantesSinMatricula() {
     }
 }
 
+//Funcion que permite generar el tercer reporte: estudiantes sin prestamos
 void GenerarReporteEstudiantesSinPrestamos() {
     cout << "=== Estudiantes sin Préstamos ===" << endl;
 
@@ -664,6 +678,7 @@ void GenerarReporteEstudiantesSinPrestamos() {
 
 }
 
+//Funcion que permite generar el cuarto repore: tipos de componentes con cantidad 0
 void GenerarReporteTiposComponentesCantidadCero() {
     cout << "=== Tipos de Componentes con Cantidad Cero ===" << endl;
 
@@ -682,7 +697,7 @@ void GenerarReporteTiposComponentesCantidadCero() {
     }
 }
 
-
+//Submenu que permite al usuario seleccionar un reporte a desplegar
 void reportes(){
     int opcionReporte;
     bool salirReporte = false;
@@ -723,6 +738,7 @@ void reportes(){
     }
 }
 
+//Menu principal del sistema con las opciones para insertar datos, modifica, eliminar, realizar consulas o ver reportes
 void menu(){
     int opcionMenu;
     bool salir=false;
@@ -786,6 +802,7 @@ void menu(){
     }
 }
 
+//Main del programa, llama a Menu() que es la funcion del menú principal en donde se ejecuta el resto de lógica de submenus.
 int main() {
     system("cls");
     menu();

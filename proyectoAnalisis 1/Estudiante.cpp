@@ -1,8 +1,9 @@
-#include "Estudiante.h"
+#include "Estudiante.h"  //se incluyen las librerías neceasarias
 #include <iostream>
 
 using namespace std;
 
+//Constructor de la clase Estudiante
 Estudiante::Estudiante(string carnet, string nombre, string apellido, string cedula, int edad, string lugarResidencia)
     : carnet(carnet), nombre(nombre), apellido(apellido), cedula(cedula), edad(edad), lugarResidencia(lugarResidencia) {}
 
@@ -31,25 +32,23 @@ string Estudiante::ToString() {
     return info;
 }
 
+//El método para que un estudiante solicite un prestamo
 bool Estudiante::SolicitarPrestamo(Componente tipoComponente, int cantidad) {
     // Itera sobre los cursos matriculados del estudiante
     for (const Curso& curso : listaMatricula) {
         // Busca el proyecto asociado a este curso
         for (const Proyecto& proyecto : curso.listaProyectos) {
-            // Verifica si el tipo de componente es requerido en este proyecto
             for (const ComponenteRequerido& componenteRequerido : proyecto.compRequeridos) {
                 if (componenteRequerido.tipoComponente.codigo == tipoComponente.codigo &&
                     cantidad <= componenteRequerido.cantMinRequerida) {
-                    // Busca el tipo de componente en la lista de tipos
                     for (Tipos& tipo : tipoComponente.tipos) {
                         if (tipo.codigo == tipoComponente.codigo && tipo.cantidad >= cantidad) {
-                            // El componente es necesario y hay suficiente cantidad para prestar
+                            // Si el componente es necesario y hay suficiente cantidad para prestar
                             PrestamoTiposC prestamo;
                             prestamo.tipoComponente = tipoComponente;
                             prestamo.proyecto = proyecto;
                             prestamo.cantidad = cantidad;
                             listaPrestamos.push_back(prestamo);
-                            // Actualiza la cantidad disponible del tipo de componente
                             tipo.cantidad -= cantidad;
                             return true;
                         }
