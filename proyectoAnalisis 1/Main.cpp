@@ -94,6 +94,7 @@ void agregarDatosAlDatosSistema(){
         // Insertar el curso al inicio de la lista
         sistema.listaCursos.push_front(curso);
     }*/
+}
 void menuInserciones(){
     int opcionInserciones;
     bool salirInserciones = false;
@@ -275,7 +276,7 @@ void menu(){
         cin>>opcionMenu;
         switch(opcionMenu){
             case 1:
-                menuInserciones();
+                //menuInserciones();
                 break;
             case 2:
                 menuEdiciones();
