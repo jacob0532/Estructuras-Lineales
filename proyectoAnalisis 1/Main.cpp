@@ -350,16 +350,30 @@ void InsertarListaMorosos(DatosSistema& datosSistema) {
 //Fecha de inicio: 17/9/2023
 //Fecha última modificación: 21/9/2023.
 void InsertarTipo(DatosSistema& datosSistema) {
-    string codigo, nombre, descripcion, dondeSeUtilizan;
+    string codigoComponente, codigoTipo, nombre, descripcion, dondeSeUtilizan;
     int cantidad;
 
+    cout << "Ingrese el código del componente al que desea agregar el tipo: ";
+    cin >> codigoComponente;
+
+    // Verificar si el código del componente existe en la lista de componentes
+    auto itComponente = find_if(datosSistema.listaComponentes.begin(), datosSistema.listaComponentes.end(),
+        [codigoComponente](const Componente& componente) {
+            return componente.codigo == codigoComponente;
+        });
+
+    if (itComponente == datosSistema.listaComponentes.end()) {
+        cout << "El código del componente no existe en la lista de componentes." << endl;
+        return; // Salir de la función si el código del componente no existe
+    }
+
     cout << "Ingrese el código del tipo: ";
-    cin >> codigo;
+    cin >> codigoTipo;
 
     // Verificar si el código del tipo ya existe en la lista de tipos
     auto itTipoExistente = find_if(datosSistema.listaTipos.begin(), datosSistema.listaTipos.end(),
-        [codigo](const Tipos& tipo) {
-            return tipo.codigo == codigo;
+        [codigoTipo](const Tipos& tipo) {
+            return tipo.codigo == codigoTipo;
         });
 
     if (itTipoExistente != datosSistema.listaTipos.end()) {
@@ -367,26 +381,32 @@ void InsertarTipo(DatosSistema& datosSistema) {
         return; // Salir de la función si ya existe el código del tipo
     }
 
+    cin.ignore();
+
     cout << "Ingrese el nombre del tipo: ";
-    cin >> nombre;
+    getline(cin, nombre);
 
     cout << "Ingrese la descripción del tipo: ";
-    cin >> descripcion;
+    getline(cin, descripcion);
 
     cout << "Ingrese dónde se utilizan este tipo: ";
-    cin >> dondeSeUtilizan;
+    getline(cin, dondeSeUtilizan);
 
     cout << "Ingrese la cantidad disponible de este tipo: ";
     cin >> cantidad;
 
     // Crear un objeto de tipo Tipos con los datos ingresados
-    Tipos nuevoTipo(codigo, nombre, descripcion, dondeSeUtilizan, cantidad);
+    Tipos nuevoTipo(codigoTipo, nombre, descripcion, dondeSeUtilizan, cantidad);
 
     // Agregar el nuevo tipo a la lista de tipos
     datosSistema.listaTipos.push_back(nuevoTipo);
 
-    cout << "Tipo agregado correctamente." << endl;
+    // Agregar el nuevo tipo a la lista de tipos del componente correspondiente
+    itComponente->tipos.push_back(nuevoTipo);
+
+    cout << "Tipo agregado correctamente al componente." << endl;
 }
+
 
 
 //FUNCIONES DE CONSULTA
@@ -706,11 +726,13 @@ void GenerarReporteEstudiantesSinMatricula() {
 //Fecha de inicio: 20/9/2023
 //Fecha última modificación: 22/9/2023.
 void GenerarReporteEstudiantesSinPrestamos() {
-    cout << "=== Estudiantes sin Préstamos ===" << endl;
+    cout << "***Estudiantes sin Préstamos***" << endl;
 
     for (auto& estudiante : datosSistema.listaEstudiantes) {
         if (estudiante.listaPrestamos.size() <= 0){
-            cout << estudiante.ToString() << "\n\n";
+            cout <<"Nombre: " << estudiante.nombre <<" " << estudiante.apellido <<"\n";
+            cout <<"Cédula: "<< estudiante.cedula << "\n";
+            cout <<"Carné: "<< estudiante.carnet << "\n\n";
         }
     }
 
@@ -719,23 +741,36 @@ void GenerarReporteEstudiantesSinPrestamos() {
 //Funcion que permite generar el cuarto repore: tipos de componentes con cantidad 0
 //Fecha de inicio: 21/9/2023
 //Fecha última modificación: 22/9/2023.
-void GenerarReporteTiposComponentesCantidadCero() {
-    cout << "=== Tipos de Componentes con Cantidad Cero ===" << endl;
+void CompCantCero(const DatosSistema& datosSistema) {
+    cout << "=== Componentes con Tipos de Cantidad Cero ===" << endl;
 
-    bool hayTiposConCantidadCero = false;
+    for (const Componente& componente : datosSistema.listaComponentes) {
+        bool tieneTipoConCantidadCero = false;
 
-    for (auto& tipo : datosSistema.listaTipos) {
-        if (tipo.cantidad == 0) {
-            cout << tipo.ToString() << "\n\n";
+        // Verificar si alguno de los tipos del componente tiene cantidad igual a 0
+        for (const Tipos& tipo : componente.tipos) {
+            if (tipo.cantidad == 0) {
+                tieneTipoConCantidadCero = true;
+                break;
+            }
+        }
 
-            hayTiposConCantidadCero = true;
+        if (tieneTipoConCantidadCero) {
+            cout << "Componente: " << componente.nombre << endl;
+            cout << "Tipos:" << endl;
+
+            for (const Tipos& tipo : componente.tipos) {
+                if (tipo.cantidad == 0) {
+                    cout << tipo.nombre << endl;
+                    cout << "Cantidad: " << tipo.cantidad << endl;
+                }
+            }
+
+            cout << "=================================" << endl;
         }
     }
-
-    if (!hayTiposConCantidadCero) {
-        cout << "No hay tipos de componentes con cantidad igual a cero." << endl;
-    }
 }
+
 
 //Submenu que permite al usuario seleccionar un reporte a desplegar
 //Fecha de inicio: 216/9/2023
@@ -769,6 +804,7 @@ void reportes(){
                 break;
             case 4:
                 cout << "4. Tipos de componentes con cantidad 0." << endl;
+                CompCantCero(datosSistema);
                 break;
             case 5:
                 salirReporte = true;
