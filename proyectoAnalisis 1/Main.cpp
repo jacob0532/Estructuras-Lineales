@@ -365,7 +365,7 @@ void InsertarTipo(DatosSistema& datosSistema) {
 
 
 //FUNCIONES DE CONSULTA
-
+/*
 Curso findCourseWithMostComponents(const std::list<Curso>& listaCursos) {
     Curso cursoWithMostComponents;
     int maxComponents = 0;
@@ -395,7 +395,7 @@ Estudiante findStudentWithMostProjects(const std::list<Estudiante>& listaEstudia
 
     return estudianteWithMostProjects;
 }
-
+*/
 void menuInserciones(){
     int opcionInserciones;
     bool salirInserciones = false;
@@ -530,6 +530,95 @@ void consultas(){
     }
 }
 
+void GenerarReporte() {
+    // Imprime la información de la lista de estudiantes
+    cout << "=== Lista de Estudiantes ===" << endl;
+    for (auto& estudiante : datosSistema.listaEstudiantes) {
+        cout << estudiante.ToString() << "\n\n";
+    }
+
+    // Imprime la información de la lista de cursos
+    cout << "=== Lista de Cursos ===" << endl;
+    for ( auto& curso : datosSistema.listaCursos) {
+        cout << curso.ToString() << "\n\n";
+    }
+
+    // Imprime la información de la lista de componentes
+    cout << "=== Lista de Componentes ===" << endl;
+    for ( auto& componente : datosSistema.listaComponentes) {
+        cout << componente.ToString() << "\n\n";
+    }
+
+    // Imprime la información de la lista de proyectos
+    cout << "=== Lista de Proyectos ===" << endl;
+    for ( auto& proyecto : datosSistema.listaProyectos) {
+        cout << proyecto.ToString() << "\n\n";
+    }
+
+    // Imprime la información de la lista de tipos
+    cout << "=== Lista de Tipos ===" << endl;
+    for ( auto& tipo : datosSistema.listaTipos) {
+        cout << tipo.ToString() << "\n\n";
+    }
+
+    // Imprime la información de la lista de espera
+    cout << "=== Lista de Espera ===" << endl;
+    cout << datosSistema.listaEspera.ToString() << "\n\n";
+
+    // Imprime la información de la lista de morosos
+    cout << "=== Lista de Morosos ===" << endl;
+    cout << datosSistema.listaMorosos.ToString() << "\n\n";
+}
+
+void GenerarReporteEstudiantesSinMatricula() {
+    cout << "=== Estudiantes sin Matrícula ===" << endl;
+    
+    bool hayEstudiantesSinMatricula = false;
+
+    for (auto& estudiante : datosSistema.listaEstudiantes) {
+        if (estudiante.listaMatricula.empty()) {
+            cout << estudiante.ToString() << "\n\n";
+    
+
+            hayEstudiantesSinMatricula = true;
+        }
+    }
+
+    if (!hayEstudiantesSinMatricula) {
+        cout << "No hay estudiantes sin matrícula." << endl;
+    }
+}
+
+void GenerarReporteEstudiantesSinPrestamos() {
+    cout << "=== Estudiantes sin Préstamos ===" << endl;
+
+    for (auto& estudiante : datosSistema.listaEstudiantes) {
+        if (estudiante.listaPrestamos.size() <= 0){
+            cout << estudiante.ToString() << "\n\n";
+        }
+    }
+
+}
+
+void GenerarReporteTiposComponentesCantidadCero() {
+    cout << "=== Tipos de Componentes con Cantidad Cero ===" << endl;
+
+    bool hayTiposConCantidadCero = false;
+
+    for (auto& tipo : datosSistema.listaTipos) {
+        if (tipo.cantidad == 0) {
+            cout << tipo.ToString() << "\n\n";
+
+            hayTiposConCantidadCero = true;
+        }
+    }
+
+    if (!hayTiposConCantidadCero) {
+        cout << "No hay tipos de componentes con cantidad igual a cero." << endl;
+    }
+}
+
+
 void reportes(){
     int opcionReporte;
     bool salirReporte = false;
@@ -547,12 +636,15 @@ void reportes(){
         switch(opcionReporte){
             case 1:
                 cout << "1. Información de todas las listas" << endl;
+                GenerarReporte();
                 break;
             case 2:
                 cout << "2. Estudiantes sin matricula" << endl;
+                GenerarReporteEstudiantesSinMatricula();
                 break;
             case 3:
                 cout << "3. Estudiantes sin préstamos" << endl;
+                GenerarReporteEstudiantesSinPrestamos();
                 break;
             case 4:
                 cout << "4. Tipos de componentes con cantidad 0." << endl;
@@ -602,6 +694,7 @@ void menu(){
                     cout << curso.ToString() << "\n\n";
                 }*/
                 //menuInserciones();
+                menuInserciones();
                 break;
             case 2:
                 menuEdiciones();
