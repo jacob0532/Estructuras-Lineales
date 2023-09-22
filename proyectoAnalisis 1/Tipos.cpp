@@ -11,9 +11,9 @@ Tipos::Tipos(string codigo, string nombre, string descripcion, string dondeSeUti
 
 // Método para obtener una representación en string del tipo de componente
 string Tipos::ToString() {
-    string tipoString = "Código: " + codigo + "\n";
+    string tipoString = "Codigo: " + codigo + "\n";
     tipoString += "Nombre: " + nombre + "\n";
-    tipoString += "Descripción: " + descripcion + "\n";
+    tipoString += "Descripcion: " + descripcion + "\n";
     tipoString += "Donde se utilizan: " + dondeSeUtilizan + "\n";
     tipoString += "Cantidad: " + to_string(cantidad) + "\n";
 

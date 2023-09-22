@@ -10,7 +10,7 @@ string Estudiante::ToString() {
     string info = "Carnet: " + carnet + "\n";
     info += "Nombre: " + nombre + "\n";
     info += "Apellido: " + apellido + "\n";
-    info += "Cédula: " + cedula + "\n";
+    info += "Cedula: " + cedula + "\n";
     info += "Edad: " + to_string(edad) + "\n";
     info += "Lugar de Residencia: " + lugarResidencia + "\n";
 

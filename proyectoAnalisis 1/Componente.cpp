@@ -9,9 +9,9 @@ Componente::Componente(string codigo, string nombre, string descripcion, Clasifi
 
 // Método para obtener una representación en string del componente
 string Componente::ToString() const{
-    string componenteString = "Código: " + codigo + "\n";
+    string componenteString = "Codigo: " + codigo + "\n";
     componenteString += "Nombre: " + nombre + "\n";
-    componenteString += "Descripción: " + descripcion + "\n";
+    componenteString += "Descripcion: " + descripcion + "\n";
 
     // Convertir la clasificación a string
     string clasificacionStr;
@@ -20,7 +20,7 @@ string Componente::ToString() const{
     } else {
         clasificacionStr = "Pasivo";
     }
-    componenteString += "Clasificación: " + clasificacionStr + "\n";
+    componenteString += "Clasificacion: " + clasificacionStr + "\n";
 
     componenteString += "Aplicaciones: " + aplicaciones + "\n";
 
