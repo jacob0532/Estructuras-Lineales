@@ -5,8 +5,8 @@
 
 using namespace std;
 /*
-Fecha de inicio: 15/9/2023
-Fecha última modificación: 15/9/2023 .
+Fecha de inicio: 13/9/2023
+Fecha última modificación: 18/9/2023.
 la clase Tipos representa los tipos de
 componentes existentes en el contexto del proyecto dentro del programa
 */

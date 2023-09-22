@@ -30,6 +30,8 @@ struct DatosSistema {
 DatosSistema datosSistema;  // Instancia de DatosDatosSistema
 
 //Funcion que permite agregar los datos necesarios al inciar el programa.
+//Fecha de inicio: 18/9/2023
+//Fecha última modificación: 21/9/2023.
 void agregarDatosAlDatosSistema(){
     for (int i = 1; i <= 5; ++i) {
         string codigo = "T" + to_string(i);
@@ -132,6 +134,9 @@ void agregarDatosAlDatosSistema(){
 }
 
 //Funcion que permite insertar un estudiane al sistema, lo incluye en la lista de estudiantes definida el inicio.
+//Fecha de inicio: 17/9/2023
+//Fecha última modificación: 21/9/2023.
+
 void InsertarEstudiante(DatosSistema& datosSistema) {
     string carnet, nombre, apellido, cedula, lugarResidencia;
     int edad;
@@ -165,6 +170,9 @@ void InsertarEstudiante(DatosSistema& datosSistema) {
 }
 
 //Funcion que permite insertar un Curso al sistema, lo incluye en la lista de cursos definida el inicio.
+//Fecha de inicio: 18/9/2023
+//Fecha última modificación: 21/9/2023.
+
 void InsertarCurso(DatosSistema& datosSistema) {
     string codigo, nombre;
     int creditos;
@@ -189,6 +197,8 @@ void InsertarCurso(DatosSistema& datosSistema) {
 }
 
 //Funcion que permite insertar un componente al sistema, lo incluye en la lista de componentes definida el inicio.
+//Fecha de inicio: 17/9/2023
+//Fecha última modificación: 21/9/2023.
 void InsertarComponente(DatosSistema& datosSistema) {
     string codigo, nombre, descripcion, aplicaciones;
     Clasificacion clasificacion;
@@ -221,6 +231,8 @@ void InsertarComponente(DatosSistema& datosSistema) {
 }
 
 //Funcion que permite insertar un proyectos al sistema, lo incluye en la lista de proyectos definida el inicio.
+//Fecha de inicio: 17/9/2023
+//Fecha última modificación: 21/9/2023.
 void InsertarProyecto(DatosSistema& datosSistema) {
     string nombre, descripcion;
     double valorPorcentual;
@@ -245,6 +257,8 @@ void InsertarProyecto(DatosSistema& datosSistema) {
 }
 
 //Funcion que permite insertar un estudiane y el componente solicitado en una lista de espera, lo incluye en la lista de espera definida el inicio.
+//Fecha de inicio: 20/9/2023
+//Fecha última modificación: 21/9/2023.
 void InsertarEstudianteListaEspera(DatosSistema& datosSistema) {
     string carnet;
     Componente tipoComponente;
@@ -290,6 +304,8 @@ void InsertarEstudianteListaEspera(DatosSistema& datosSistema) {
 }
 
 //Funcion que permite insertar un estudiane en una lista de morosos, lo incluye en la lista de morosos definida el inicio.
+//Fecha de inicio: 20/9/2023
+//Fecha última modificación: 21/9/2023.
 void InsertarListaMorosos(DatosSistema& datosSistema) {
     string carnet, codigoComponente;
     int cantidadPendiente;
@@ -331,6 +347,8 @@ void InsertarListaMorosos(DatosSistema& datosSistema) {
 }
 
 //Funcion que permite insertar un tipo de componente al sistema, lo incluye en la lista de tipos definida el inicio.
+//Fecha de inicio: 17/9/2023
+//Fecha última modificación: 21/9/2023.
 void InsertarTipo(DatosSistema& datosSistema) {
     string codigo, nombre, descripcion, dondeSeUtilizan;
     int cantidad;
@@ -374,6 +392,8 @@ void InsertarTipo(DatosSistema& datosSistema) {
 //FUNCIONES DE CONSULTA
 
 //Funcion que permite contabilizar el total de componentes
+//Fecha de inicio: 21/9/2023
+//Fecha última modificación: 22/9/2023.
 int countTotalComponents(const std::list<ComponenteRequerido>& compRequeridos) {
     int totalComponents = 0;
 
@@ -385,6 +405,8 @@ int countTotalComponents(const std::list<ComponenteRequerido>& compRequeridos) {
 }
 
 //Funcion que permite la primera consulta: curso que requiere mas componentes.
+//Fecha de inicio: 21/9/2023
+//Fecha última modificación: 22/9/2023.
 Curso cursoReqMasComponentes() {
     Curso cursoConMasComponentes;
     int maxTotalComponents = 0;
@@ -408,6 +430,8 @@ Curso cursoReqMasComponentes() {
 }
 
 //Funcion que permite la segunda consulta: estudiante con mas proyectos asignados
+//Fecha de inicio: 21/9/2023
+//Fecha última modificación: 22/9/2023.
 list<Estudiante> estuConMasProyectos() {
     list<Estudiante> estConMasProyectos;
     int maxProyectos = 0;
@@ -415,7 +439,7 @@ list<Estudiante> estuConMasProyectos() {
     for (const auto& estudiante : datosSistema.listaEstudiantes) {
         int totalProyectos = 0;
 
-        // Calculate the total number of projects for each course in the student's matricula
+        // Calcula el tota de proyecto de cada curso en la matricula del estudiante
         for (const auto& curso : estudiante.listaMatricula) {
             totalProyectos += curso.listaProyectos.size();
         }
@@ -434,7 +458,7 @@ list<Estudiante> estuConMasProyectos() {
             cout << estudiante.ToString() << "\n\n";
         }
     }else if (estConMasProyectos.size() == 1) {
-    // Print the information for the student with the most projects
+    // Imprime el estudiante con mas proyectos
     cout << "Estudiante con más proyectos (" << maxProyectos << " proyectos):\n";
     cout << estConMasProyectos.front().ToString() << "\n";
     } else {
@@ -446,6 +470,8 @@ list<Estudiante> estuConMasProyectos() {
 }
 
 //Funcion que permite la tercera consulta: proyecto que requiere más tipos de componentes
+//Fecha de inicio: 21/9/2023
+//Fecha última modificación: 22/9/2023.
 Proyecto proyectoConMasTiposComponentes() {
     Proyecto proyectoConMasTipos;
     int maxComponentTypes = 0;
@@ -469,6 +495,8 @@ Proyecto proyectoConMasTiposComponentes() {
 }
 
 //Es el submenu de las inserciones permitidas
+//Fecha de inicio: 14/9/2023
+//Fecha última modificación: 20/9/2023.
 void menuInserciones(){
     int opcionInserciones;
     bool salirInserciones = false;
@@ -526,6 +554,8 @@ void menuInserciones(){
 }
 
 //Es el submenu de las ediciones permitidas
+//Fecha de inicio: 14/9/2023
+//Fecha última modificación: 20/9/2023.
 void menuEdiciones(){
     int opcionEdicion;
     bool salirEdicion = false;
@@ -556,6 +586,8 @@ void menuEdiciones(){
 }
 
 ////Es el submenu de las consulas que puede realizar el usuario
+//Fecha de inicio: 14/9/2023
+//Fecha última modificación: 20/9/2023.
 void consultas(){
     int opcionConsulta;
     bool salirConsutla = false;
@@ -606,6 +638,8 @@ void consultas(){
 }
 
 //Funcion que genera el primer reporte: informacion de todas las listas con sublistas respectivas
+//Fecha de inicio: 20/9/2023
+//Fecha última modificación: 22/9/2023.
 void GenerarReporte() {
     // Imprime la información de la lista de estudiantes
     cout << "=== Lista de Estudiantes ===" << endl;
@@ -647,6 +681,8 @@ void GenerarReporte() {
 }
 
 //Funcion que permite generar el segundo reporte: imprimir estudiantes sin matricula
+//Fecha de inicio: 20/9/2023
+//Fecha última modificación: 22/9/2023.
 void GenerarReporteEstudiantesSinMatricula() {
     cout << "=== Estudiantes sin Matrícula ===" << endl;
     
@@ -667,6 +703,8 @@ void GenerarReporteEstudiantesSinMatricula() {
 }
 
 //Funcion que permite generar el tercer reporte: estudiantes sin prestamos
+//Fecha de inicio: 20/9/2023
+//Fecha última modificación: 22/9/2023.
 void GenerarReporteEstudiantesSinPrestamos() {
     cout << "=== Estudiantes sin Préstamos ===" << endl;
 
@@ -679,6 +717,8 @@ void GenerarReporteEstudiantesSinPrestamos() {
 }
 
 //Funcion que permite generar el cuarto repore: tipos de componentes con cantidad 0
+//Fecha de inicio: 21/9/2023
+//Fecha última modificación: 22/9/2023.
 void GenerarReporteTiposComponentesCantidadCero() {
     cout << "=== Tipos de Componentes con Cantidad Cero ===" << endl;
 
@@ -698,6 +738,8 @@ void GenerarReporteTiposComponentesCantidadCero() {
 }
 
 //Submenu que permite al usuario seleccionar un reporte a desplegar
+//Fecha de inicio: 216/9/2023
+//Fecha última modificación: 22/9/2023.
 void reportes(){
     int opcionReporte;
     bool salirReporte = false;
@@ -739,6 +781,8 @@ void reportes(){
 }
 
 //Menu principal del sistema con las opciones para insertar datos, modifica, eliminar, realizar consulas o ver reportes
+//Fecha de inicio: 16/9/2023
+//Fecha última modificación: 22/9/2023.
 void menu(){
     int opcionMenu;
     bool salir=false;

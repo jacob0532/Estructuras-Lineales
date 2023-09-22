@@ -8,8 +8,8 @@
 
 using namespace std;
 /*
-Fecha de inicio: 13/9/2023
-Fecha última modificación: 13/9/2023 .
+Fecha de inicio: 16/9/2023
+Fecha última modificación: 19/9/2023 .
 Esta clase representa la lista de espera
 de estudiantes que solicitaron un componente
 dentro del sistema. 

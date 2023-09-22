@@ -8,7 +8,7 @@ using namespace std;
 
 /*
 Fecha de inicio: 15/9/2023
-Fecha última modificación: 15/9/2023 .
+Fecha última modificación: 20/9/2023 .
 la clase Proyecto representa los proyectos
 que tienen los cursos dentro del programa.
 */

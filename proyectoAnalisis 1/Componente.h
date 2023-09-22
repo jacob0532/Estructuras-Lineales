@@ -11,7 +11,7 @@ using namespace std;
 
 /*
 Fecha de inicio: 13/9/2023
-Fecha última modificación: 13/9/2023 .
+Fecha última modificación: 15/9/2023 .
 Esta clse se encarga de representar los componentes
 dentro del contexto del programa
 */

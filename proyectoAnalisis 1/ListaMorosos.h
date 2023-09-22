@@ -10,7 +10,7 @@
 using namespace std;
 /*
 Fecha de inicio: 15/9/2023
-Fecha última modificación: 15/9/2023 .
+Fecha última modificación: 19/9/2023 .
 Esta clase representa dentro del sistema
 la lista de morosidad de estudiantes con los
 componentes a devolver

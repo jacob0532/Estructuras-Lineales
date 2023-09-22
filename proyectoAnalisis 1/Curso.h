@@ -9,7 +9,7 @@ using namespace std;
 
 /*
 Fecha de inicio: 13/9/2023
-Fecha última modificación: 13/9/2023 .
+Fecha última modificación: 14/9/2023 .
 Esta clase representa los cursos dentro del sistema.
 */
 

@@ -10,7 +10,7 @@
 using namespace std;
 /*
 Fecha de inicio: 13/9/2023
-Fecha última modificación: 13/9/2023 .
+Fecha última modificación: 19/9/2023 .
 Esta clase representa a los estudiantes dentro del programa
 */
 
