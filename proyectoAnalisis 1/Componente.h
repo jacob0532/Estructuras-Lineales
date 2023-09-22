@@ -28,7 +28,7 @@ public:
     Componente(string codigo, string nombre, string descripcion, Clasificacion clasificacion, string aplicaciones);
     
     // Método para obtener una representación en string del componente
-    string ToString();
+    string ToString() const;
 };
 
 #endif  // COMPONENTE_H

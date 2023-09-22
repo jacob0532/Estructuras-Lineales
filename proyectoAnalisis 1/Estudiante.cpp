@@ -16,13 +16,13 @@ string Estudiante::ToString() {
 
     // Convertir lista de matrículas a string
     info += "Lista de Matrículas:\n";
-    for (const auto& curso : listaMatricula) {
+    for (const Curso& curso : listaMatricula) {
         info += "\t" + curso.ToString() + "\n";
     }
 
     // Convertir lista de préstamos a string
     info += "Lista de Préstamos:\n";
-    for (const auto& prestamo : listaPrestamos) {
+    for (const PrestamoTiposC& prestamo : listaPrestamos) {
         info += "\tTipo de Componente: " + prestamo.tipoComponente.ToString() + "\n";
         info += "\tProyecto: " + prestamo.proyecto.ToString() + "\n";
         info += "\tCantidad: " + to_string(prestamo.cantidad) + "\n";

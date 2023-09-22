@@ -1,6 +1,7 @@
 #ifndef PROYECTO_H
 #define PROYECTO_H
 
+#include "Componente.h"
 #include <string>
 
 using namespace std;
@@ -24,7 +25,7 @@ public:
     Proyecto(string nombre, string descripcion, double valorPorcentual);
     
     // Método para obtener una representación en string del proyecto
-    string ToString();
+    string ToString() const;
 };
 
 #endif  // PROYECTO_H

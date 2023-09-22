@@ -1,6 +1,9 @@
 #ifndef ESTUDIANTE_H
 #define ESTUDIANTE_H
 
+#include "Curso.h"
+#include "Componente.h"
+#include "Proyecto.h"
 #include <string>
 #include <list>
 
@@ -10,7 +13,7 @@ using namespace std;
 struct PrestamoTiposC {
     // Atributos del struct PrestamoTiposC
     Componente tipoComponente;
-    Proyecto proyecto
+    Proyecto proyecto;
     int cantidad;
 };
 
@@ -23,7 +26,7 @@ public:
     int edad;
     string lugarResidencia;
     list<Curso> listaMatricula;
-    lista<PrestamoTiposC> listaPrestamos;
+    list<PrestamoTiposC> listaPrestamos;
 
 public:
     Estudiante() = default;

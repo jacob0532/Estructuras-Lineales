@@ -9,14 +9,14 @@ Curso::Curso(string codigo, string nombre, int creditos, list<Proyecto> listaPro
 }
 
 // Método para obtener una representación en string del curso
-string Curso::ToString() {
+string Curso::ToString() const{
     string cursoString = "Código: " + codigo + "\n";
     cursoString += "Nombre: " + nombre + "\n";
     cursoString += "Créditos: " + to_string(creditos) + "\n";
 
     cursoString += "Lista de Proyectos:\n";
     for (const Proyecto& proyecto : listaProyectos) {
-        cursoString += " - Nombre del Proyecto: " + proyecto.nombreProyecto + "\n";
+        cursoString += " - Nombre del Proyecto: " + proyecto.nombre + "\n";
         // Agregar otros atributos relevantes de la clase Proyecto según sea necesario
     }
 

@@ -1,6 +1,7 @@
 #ifndef CURSO_H
 #define CURSO_H
 
+#include "Proyecto.h"
 #include <string>
 #include <list>
 
@@ -18,7 +19,7 @@ public:
     Curso(string codigo, string nombre, int creditos, list<Proyecto> listaProyectos);
     
     // Método para obtener una representación en string del curso
-    string ToString();
+    string ToString() const;
 };
 
 #endif  // CURSO_H

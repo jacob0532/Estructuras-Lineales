@@ -8,7 +8,7 @@ Componente::Componente(string codigo, string nombre, string descripcion, Clasifi
 }
 
 // Método para obtener una representación en string del componente
-string Componente::ToString() {
+string Componente::ToString() const{
     string componenteString = "Código: " + codigo + "\n";
     componenteString += "Nombre: " + nombre + "\n";
     componenteString += "Descripción: " + descripcion + "\n";

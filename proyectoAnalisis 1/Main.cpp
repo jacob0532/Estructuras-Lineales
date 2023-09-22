@@ -1,20 +1,48 @@
 #include <iostream>
+#include <string>
+#include <list>
+#include <stdlib.h>
 #include "Curso.h"
 #include "Estudiante.h"
 #include "Componente.h"
 
+using namespace std;
+
+void menu(){
+    int opcionMenu;
+    bool salir=false;
+    while(salir!=true){
+        cout<<"\n";
+        cout<<"------------------Menu-------------------------------"<<endl;
+        cout<<"1.Insertar Datos"<<endl;
+        cout<<"2.Modificar Datos"<<endl;
+        cout<<"3.Borrar Estudiante"<<endl;
+        cout<<"4.Consultas"<<endl;
+        cout<<"5.Reportes"<<endl;
+        cout<<"6.salir"<<endl;
+        cout<<"-----------------------------------------------------"<<endl;
+        cout<<"Seleccione una opcion:";
+        cin>>opcionMenu;
+        switch(opcionMenu){
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;  
+            case 6:
+                salir=true;
+                break;
+        }
+    }
+}
+
 int main() {
-    // Ejemplo para la clase Curso
-    Curso curso1("C001", "Programación", 3);
-    cout << "Representación de Curso:\n" << curso1.ToString() << "\n\n";
-
-    // Ejemplo para la clase Estudiante
-    Estudiante estudiante1("2021001", "Juan", "Pérez", "123456789", 20, "Ciudad X");
-    cout << "Representación de Estudiante:\n" << estudiante1.ToString() << "\n\n";
-
-    // Ejemplo para la clase Componente
-    Componente componente1("C001", "CPU", "Procesador central", "Activo", "Sistemas embebidos");
-    cout << "Representación de Componente:\n" << componente1.ToString() << "\n";
-
+    system("cls");
+    menu();
     return 0;
 }
