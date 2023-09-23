@@ -721,12 +721,15 @@ void consultas(){
         switch(opcionConsulta){
             case 1:
                 cout << "1. Curso que requiere mas componentes electronicos en general" << endl;
+                cursoReqMasComponentes();
                 break;
             case 2:
                 cout << "2. Estudiante con mas proyectos asignados" << endl;
+                estuConMasProyectos();
                 break;
             case 3:
                 cout << "3. Proyecto que requiere mas tipos de componentes" << endl;
+                proyectoConMasTiposComponentes();
                 break;
             case 4:
                 cout << "4. Estudiantes que deben esperar por mas de un tipo de comopnente" << endl;
@@ -919,6 +922,7 @@ void reportes(){
 //Fecha de inicio: 16/9/2023
 //Fecha última modificación: 22/9/2023.
 void menu(){
+    agregarDatosAlDatosSistema();
     int opcionMenu;
     bool salir=false;
     while(salir!=true){
@@ -935,38 +939,16 @@ void menu(){
         cin>>opcionMenu;
         switch(opcionMenu){
             case 1:
-                //menuInserciones();
-                agregarDatosAlDatosSistema();
-
-                //cursoReqMasComponentes();
-                //estuConMasProyectos();
-                //proyectoConMasTiposComponentes();
-                /*for (auto& tipo : datosSistema.listaTipos) {
-                    cout << tipo.ToString() << "\n\n";
-                }*/
-                /*for (auto& componente : datosSistema.listaComponentes) {
-                    cout << componente.ToString() << "\n\n";
-                }*/
-                /*for (const auto& proyecto : datosSistema.listaProyectos) {
-                    cout << proyecto.ToString() << "\n\n";
-                }*/
-                /*for (auto& estudiante : datosSistema.listaEstudiantes) {
-                    cout << estudiante.ToString() << "\n\n";
-                }*/
-                /*for (auto& curso : datosSistema.listaCursos) {
-                    cout << curso.ToString() << "\n\n";
-                }*/
-                //menuInserciones();
                 menuInserciones();
                 break;
             case 2:
                 menuEdiciones();
                 break;
             case 3:
-                cout << "Ingrese el carnet del estudiante a borrar: ";
-                //string carnet;
-                //cin >> carnet;
-                //eliminarEstudiante();
+                /*cout << "Ingrese el carnet del estudiante a borrar: ";
+                string carnet;
+                cin >> carnet;
+                eliminarEstudiante();*/
                 break;
             case 4:
                 consultas();
