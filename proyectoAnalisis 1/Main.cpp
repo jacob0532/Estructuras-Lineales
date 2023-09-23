@@ -551,6 +551,12 @@ Proyecto proyectoConMasTiposComponentes() {
     return proyectoConMasTipos;
 }
 
+/*
+//Funcion para matricular un estudiante
+void matricularEstudiante(){
+
+}
+*/
 //Es el submenu de las inserciones permitidas
 //Fecha de inicio: 14/9/2023
 //Fecha última modificación: 20/9/2023.
@@ -714,7 +720,9 @@ void consultas(){
         cout << "5. Primeros tres tipos de componente requeridos por escasez" << endl;
         cout << "6. Estudiante con mas tipos de componente prestados" << endl;
         cout << "7. Estudiante con mayor morosidad" << endl;
-        cout << "8. Volver al Menú Principal" << endl;
+        cout << "8. Lista de morosos" << endl;
+        cout << "9. Lista de espera." << endl;
+        cout << "10. Volver al Menú Principal" << endl;
         cout << "-------------------------------------" << endl;
         cout << "Seleccione una opción:";
         cin >> opcionConsulta;
@@ -744,13 +752,15 @@ void consultas(){
                 cout << "7. Estudiante con mayor morosidad" << endl;
                 break;
             case 8:
-                salirConsutla = true;
-                break;
-            case 9:
+                cout << "8. Lista de estudiantes morosos" << endl;
                 ConsultarListaMorosos(datosSistema.listaMorosos);
                 break;
-            case 10:
+            case 9:
+                cout << "9. Lista de espera." << endl;
                 MostrarListaEspera(datosSistema.listaEspera);
+                break;
+            case 10:
+                salirConsutla = true;
                 break;
             default:
                 cout << "Opción no válida." << endl;
