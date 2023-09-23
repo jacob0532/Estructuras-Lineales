@@ -250,11 +250,48 @@ void InsertarProyecto(DatosSistema& datosSistema) {
     // Crear una instancia de Proyecto con los datos ingresados
     Proyecto nuevoProyecto(nombre, descripcion, valorPorcentual);
 
+    // Solicitar componentes requeridos al proyecto
+    char agregarComponente;
+    do {
+        string codigoComponente;
+        int cantidadRequerida;
+
+        cout << "¿Desea agregar un componente requerido al proyecto? (S/N): ";
+        cin >> agregarComponente;
+
+        if (agregarComponente == 'S' || agregarComponente == 's') {
+            cout << "Ingrese el código del componente requerido: ";
+            cin >> codigoComponente;
+
+            // Buscar el componente en la lista de componentes dentro de datosSistema
+            auto itComponente = find_if(datosSistema.listaComponentes.begin(), datosSistema.listaComponentes.end(),
+                [codigoComponente](const Componente& componente) {
+                    return componente.codigo == codigoComponente;
+                });
+
+            if (itComponente != datosSistema.listaComponentes.end()) {
+                cout << "Ingrese la cantidad requerida de " << itComponente->nombre << ": ";
+                cin >> cantidadRequerida;
+
+                // Crear un objeto ComponenteRequerido y agregarlo al proyecto
+                ComponenteRequerido componenteRequerido;
+                componenteRequerido.tipoComponente = *itComponente;
+                componenteRequerido.cantMinRequerida = cantidadRequerida;
+
+                nuevoProyecto.compRequeridos.push_back(componenteRequerido);
+                cout << "Componente requerido agregado correctamente." << endl;
+            } else {
+                cout << "Componente no encontrado. Verifique el código." << endl;
+            }
+        }
+    } while (agregarComponente == 'S' || agregarComponente == 's');
+
     // Agregar el proyecto a la lista de proyectos en la estructura DatosSistema
     datosSistema.listaProyectos.push_back(nuevoProyecto);
 
     cout << "Proyecto ingresado correctamente." << endl;
 }
+
 
 //Funcion que permite insertar un estudiane y el componente solicitado en una lista de espera, lo incluye en la lista de espera definida el inicio.
 //Fecha de inicio: 20/9/2023
@@ -605,6 +642,36 @@ void menuEdiciones(){
     }
 }
 
+void ConsultarListaMorosos(const ListaMorosos& listaMorosos) {
+    cout << "=== Lista de Estudiantes Morosos ===" << endl;
+
+    if (listaMorosos.estudiantes.empty()) {
+        cout << "No hay estudiantes morosos en la lista." << endl;
+    } else {
+        // Iterar a través de la lista de morosos
+        auto itEstudiante = listaMorosos.estudiantes.begin();
+        auto itTipoComponente = listaMorosos.tiposComponentes.begin();
+        auto itCantidadPendiente = listaMorosos.cantidadPendiente.begin();
+
+        while (itEstudiante != listaMorosos.estudiantes.end() &&
+               itTipoComponente != listaMorosos.tiposComponentes.end() &&
+               itCantidadPendiente != listaMorosos.cantidadPendiente.end()) {
+            // Mostrar información del estudiante moroso y la deuda
+            cout << "Estudiante: " << itEstudiante->nombre << " " << itEstudiante->apellido << endl;
+            cout << "Tipo de Componente: " << itTipoComponente->nombre << endl;
+            cout << "Cantidad Pendiente: " << *itCantidadPendiente << endl;
+
+            // Avanzar a la siguiente entrada en la lista
+            ++itEstudiante;
+            ++itTipoComponente;
+            ++itCantidadPendiente;
+
+            cout << "-----------------------------" << endl;
+        }
+    }
+}
+
+
 ////Es el submenu de las consulas que puede realizar el usuario
 //Fecha de inicio: 14/9/2023
 //Fecha última modificación: 20/9/2023.
@@ -649,6 +716,9 @@ void consultas(){
                 break;
             case 8:
                 salirConsutla = true;
+                break;
+            case 9:
+                ConsultarListaMorosos(datosSistema.listaMorosos);
                 break;
             default:
                 cout << "Opción no válida." << endl;

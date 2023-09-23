@@ -6,9 +6,9 @@ using namespace std;
 /**/
 // Método para agregar un estudiante moroso a la lista
 int ListaMorosos::AgregarMoroso(const Estudiante& estudiante, const Componente& tipoComponente, int cantidad) {
-    estudiantes.push_back(estudiante);
-    tiposComponentes.push_back(tipoComponente);
-    cantidadPendiente.push_back(cantidad);
+    estudiantes.push_front(estudiante);
+    tiposComponentes.push_front(tipoComponente);
+    cantidadPendiente.push_front(cantidad);
 
 }
 
