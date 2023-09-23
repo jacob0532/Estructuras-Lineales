@@ -671,6 +671,32 @@ void ConsultarListaMorosos(const ListaMorosos& listaMorosos) {
     }
 }
 
+void MostrarListaEspera(const ListaEspera& listaEspera) {
+    cout << "=== Lista de Estudiantes en Espera ===" << endl;
+
+    if (listaEspera.estudiantes.empty()) {
+        cout << "No hay estudiantes en espera en la lista." << endl;
+    } else {
+        auto itEstudiante = listaEspera.estudiantes.begin();
+        auto itTipoComponente = listaEspera.tiposComponentes.begin();
+        auto itCantidad = listaEspera.cantidad.begin();
+
+        while (itEstudiante != listaEspera.estudiantes.end() &&
+               itTipoComponente != listaEspera.tiposComponentes.end() &&
+               itCantidad != listaEspera.cantidad.end()) {
+            cout << "Estudiante: " << itEstudiante->nombre << " " << itEstudiante->apellido << endl;
+            cout << "Tipo de Componente: " << itTipoComponente->nombre << endl;
+            cout << "Cantidad en Espera: " << *itCantidad << endl;
+
+            ++itEstudiante;
+            ++itTipoComponente;
+            ++itCantidad;
+
+            cout << "-----------------------------" << endl;
+        }
+    }
+}
+
 
 ////Es el submenu de las consulas que puede realizar el usuario
 //Fecha de inicio: 14/9/2023
@@ -719,6 +745,9 @@ void consultas(){
                 break;
             case 9:
                 ConsultarListaMorosos(datosSistema.listaMorosos);
+                break;
+            case 10:
+                MostrarListaEspera(datosSistema.listaEspera);
                 break;
             default:
                 cout << "Opción no válida." << endl;
