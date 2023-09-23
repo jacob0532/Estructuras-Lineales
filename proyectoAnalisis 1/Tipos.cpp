@@ -1,15 +1,15 @@
-#include "Tipos.h"
+#include "Tipos.h"   //se incluyen las librerías neceasarias
 #include <iostream>
 
 using namespace std;
 
 
-
+//Constructor de la clase Tipos
 Tipos::Tipos(string codigo, string nombre, string descripcion, string dondeSeUtilizan, int cantidad)
     : codigo(codigo), nombre(nombre), descripcion(descripcion), dondeSeUtilizan(dondeSeUtilizan), cantidad(cantidad) {
 }
 
-// Método para obtener una representación en string del tipo de componente
+// Método que permite obtener una representación en string del tipo de componente
 string Tipos::ToString() {
     string tipoString = "Codigo: " + codigo + "\n";
     tipoString += "Nombre: " + nombre + "\n";

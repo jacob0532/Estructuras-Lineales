@@ -10,9 +10,13 @@
 using namespace std;
 /*
 Fecha de inicio: 15/9/2023
-Fecha última modificación: 15/9/2023 .
-Descripción para cada estructura (clase) y su uso en el programa,
-Describir cada función e instrucciones dentro de estas.*/
+Fecha última modificación: 19/9/2023 .
+Esta clase representa dentro del sistema
+la lista de morosidad de estudiantes con los
+componentes a devolver
+*/
+
+//Se definen los atributos que utiliza la clase Componente
 class ListaMorosos {
 public:
     list<Estudiante> estudiantes;
@@ -21,9 +25,9 @@ public:
 
 public:
     ListaMorosos() = default;
-    AgregarMoroso(const Estudiante& estudiante, const Componente& tipoComponente, int cantidad);
+    int AgregarMoroso(const Estudiante& estudiante, const Componente& tipoComponente, int cantidad); //constructor de lista morosos
 
-    // Método para obtener una representación en string de la lista de morosos
+    // Método que permite obtener una representación en string de la lista de morosos
     string ToString();
 };
 

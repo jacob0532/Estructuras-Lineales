@@ -1,4 +1,4 @@
-#include <iostream>
+#include <iostream>         //se incluyen las librerías neceasarias
 #include <string>
 #include <list>
 #include <stdlib.h>
@@ -16,7 +16,7 @@
 
 using namespace std;
 
-
+//Se definen las lista para trabajar en el programa
 struct DatosSistema {
     list<Componente> listaComponentes;
     list<Curso> listaCursos;
@@ -29,6 +29,9 @@ struct DatosSistema {
 
 DatosSistema datosSistema;  // Instancia de DatosDatosSistema
 
+//Funcion que permite agregar los datos necesarios al inciar el programa.
+//Fecha de inicio: 18/9/2023
+//Fecha última modificación: 21/9/2023.
 void agregarDatosAlDatosSistema(){
     for (int i = 1; i <= 5; ++i) {
         string codigo = "T" + to_string(i);
@@ -57,7 +60,7 @@ void agregarDatosAlDatosSistema(){
         datosSistema.listaComponentes.push_back(componente);
     }
 
-    // Nombres realistas para componentes eléctricos activos
+    // Nombres para componentes eléctricos activos
     string nombresActivos[] = {"Transistor", "Amplificador operacional", "Diodo emisor de luz (LED)", "Triac", "Optoacoplador"};
     for (int i = 0; i < 5; ++i) {
         string codigo = "CA" + to_string(i + 1);
@@ -92,7 +95,7 @@ void agregarDatosAlDatosSistema(){
         datosSistema.listaProyectos.push_back(proyecto);
     }
     
-    // Agregar proyectos específicos de datosSistema.listaProyectos a la lista de proyectos del curso
+    // Agregar proyectos la lista de proyectos del curso
     list<Proyecto> proyectos;
     auto it = datosSistema.listaProyectos.begin();
     for (int i = 1; i <= 10; ++i) {
@@ -117,9 +120,7 @@ void agregarDatosAlDatosSistema(){
 
         Estudiante estudiante(carnet, nombre, apellido, cedula, edad, lugarResidencia);
 
-
-
-        // Assign the list of courses to the Estudiante
+        // Asignar una lista de cursos al estuidiante
         auto endIt = datosSistema.listaCursos.begin();
         advance(endIt, i);  
         estudiante.listaMatricula.assign(datosSistema.listaCursos.begin(), endIt);
@@ -131,6 +132,10 @@ void agregarDatosAlDatosSistema(){
         datosSistema.listaEstudiantes.insert(it, estudiante);
     }
 }
+
+//Funcion que permite insertar un estudiane al sistema, lo incluye en la lista de estudiantes definida el inicio.
+//Fecha de inicio: 17/9/2023
+//Fecha última modificación: 21/9/2023.
 
 void InsertarEstudiante(DatosSistema& datosSistema) {
     string carnet, nombre, apellido, cedula, lugarResidencia;
@@ -164,6 +169,10 @@ void InsertarEstudiante(DatosSistema& datosSistema) {
     cout << "Estudiante ingresado correctamente." << endl;
 }
 
+//Funcion que permite insertar un Curso al sistema, lo incluye en la lista de cursos definida el inicio.
+//Fecha de inicio: 18/9/2023
+//Fecha última modificación: 21/9/2023.
+
 void InsertarCurso(DatosSistema& datosSistema) {
     string codigo, nombre;
     int creditos;
@@ -187,6 +196,9 @@ void InsertarCurso(DatosSistema& datosSistema) {
     cout << "Curso ingresado correctamente." << endl;
 }
 
+//Funcion que permite insertar un componente al sistema, lo incluye en la lista de componentes definida el inicio.
+//Fecha de inicio: 17/9/2023
+//Fecha última modificación: 21/9/2023.
 void InsertarComponente(DatosSistema& datosSistema) {
     string codigo, nombre, descripcion, aplicaciones;
     Clasificacion clasificacion;
@@ -218,6 +230,9 @@ void InsertarComponente(DatosSistema& datosSistema) {
     cout << "Componente ingresado correctamente." << endl;
 }
 
+//Funcion que permite insertar un proyectos al sistema, lo incluye en la lista de proyectos definida el inicio.
+//Fecha de inicio: 17/9/2023
+//Fecha última modificación: 21/9/2023.
 void InsertarProyecto(DatosSistema& datosSistema) {
     string nombre, descripcion;
     double valorPorcentual;
@@ -235,12 +250,52 @@ void InsertarProyecto(DatosSistema& datosSistema) {
     // Crear una instancia de Proyecto con los datos ingresados
     Proyecto nuevoProyecto(nombre, descripcion, valorPorcentual);
 
+    // Solicitar componentes requeridos al proyecto
+    char agregarComponente;
+    do {
+        string codigoComponente;
+        int cantidadRequerida;
+
+        cout << "¿Desea agregar un componente requerido al proyecto? (S/N): ";
+        cin >> agregarComponente;
+
+        if (agregarComponente == 'S' || agregarComponente == 's') {
+            cout << "Ingrese el código del componente requerido: ";
+            cin >> codigoComponente;
+
+            // Buscar el componente en la lista de componentes dentro de datosSistema
+            auto itComponente = find_if(datosSistema.listaComponentes.begin(), datosSistema.listaComponentes.end(),
+                [codigoComponente](const Componente& componente) {
+                    return componente.codigo == codigoComponente;
+                });
+
+            if (itComponente != datosSistema.listaComponentes.end()) {
+                cout << "Ingrese la cantidad requerida de " << itComponente->nombre << ": ";
+                cin >> cantidadRequerida;
+
+                // Crear un objeto ComponenteRequerido y agregarlo al proyecto
+                ComponenteRequerido componenteRequerido;
+                componenteRequerido.tipoComponente = *itComponente;
+                componenteRequerido.cantMinRequerida = cantidadRequerida;
+
+                nuevoProyecto.compRequeridos.push_back(componenteRequerido);
+                cout << "Componente requerido agregado correctamente." << endl;
+            } else {
+                cout << "Componente no encontrado. Verifique el código." << endl;
+            }
+        }
+    } while (agregarComponente == 'S' || agregarComponente == 's');
+
     // Agregar el proyecto a la lista de proyectos en la estructura DatosSistema
     datosSistema.listaProyectos.push_back(nuevoProyecto);
 
     cout << "Proyecto ingresado correctamente." << endl;
 }
 
+
+//Funcion que permite insertar un estudiane y el componente solicitado en una lista de espera, lo incluye en la lista de espera definida el inicio.
+//Fecha de inicio: 20/9/2023
+//Fecha última modificación: 21/9/2023.
 void InsertarEstudianteListaEspera(DatosSistema& datosSistema) {
     string carnet;
     Componente tipoComponente;
@@ -285,6 +340,9 @@ void InsertarEstudianteListaEspera(DatosSistema& datosSistema) {
     cout << "Estudiante agregado a la lista de espera correctamente." << endl;
 }
 
+//Funcion que permite insertar un estudiane en una lista de morosos, lo incluye en la lista de morosos definida el inicio.
+//Fecha de inicio: 20/9/2023
+//Fecha última modificación: 21/9/2023.
 void InsertarListaMorosos(DatosSistema& datosSistema) {
     string carnet, codigoComponente;
     int cantidadPendiente;
@@ -325,17 +383,34 @@ void InsertarListaMorosos(DatosSistema& datosSistema) {
     cout << "Estudiante agregado a la lista de morosos correctamente." << endl;
 }
 
+//Funcion que permite insertar un tipo de componente al sistema, lo incluye en la lista de tipos definida el inicio.
+//Fecha de inicio: 17/9/2023
+//Fecha última modificación: 21/9/2023.
 void InsertarTipo(DatosSistema& datosSistema) {
-    string codigo, nombre, descripcion, dondeSeUtilizan;
+    string codigoComponente, codigoTipo, nombre, descripcion, dondeSeUtilizan;
     int cantidad;
 
+    cout << "Ingrese el código del componente al que desea agregar el tipo: ";
+    cin >> codigoComponente;
+
+    // Verificar si el código del componente existe en la lista de componentes
+    auto itComponente = find_if(datosSistema.listaComponentes.begin(), datosSistema.listaComponentes.end(),
+        [codigoComponente](const Componente& componente) {
+            return componente.codigo == codigoComponente;
+        });
+
+    if (itComponente == datosSistema.listaComponentes.end()) {
+        cout << "El código del componente no existe en la lista de componentes." << endl;
+        return; // Salir de la función si el código del componente no existe
+    }
+
     cout << "Ingrese el código del tipo: ";
-    cin >> codigo;
+    cin >> codigoTipo;
 
     // Verificar si el código del tipo ya existe en la lista de tipos
     auto itTipoExistente = find_if(datosSistema.listaTipos.begin(), datosSistema.listaTipos.end(),
-        [codigo](const Tipos& tipo) {
-            return tipo.codigo == codigo;
+        [codigoTipo](const Tipos& tipo) {
+            return tipo.codigo == codigoTipo;
         });
 
     if (itTipoExistente != datosSistema.listaTipos.end()) {
@@ -343,30 +418,39 @@ void InsertarTipo(DatosSistema& datosSistema) {
         return; // Salir de la función si ya existe el código del tipo
     }
 
+    cin.ignore();
+
     cout << "Ingrese el nombre del tipo: ";
-    cin >> nombre;
+    getline(cin, nombre);
 
     cout << "Ingrese la descripción del tipo: ";
-    cin >> descripcion;
+    getline(cin, descripcion);
 
     cout << "Ingrese dónde se utilizan este tipo: ";
-    cin >> dondeSeUtilizan;
+    getline(cin, dondeSeUtilizan);
 
     cout << "Ingrese la cantidad disponible de este tipo: ";
     cin >> cantidad;
 
     // Crear un objeto de tipo Tipos con los datos ingresados
-    Tipos nuevoTipo(codigo, nombre, descripcion, dondeSeUtilizan, cantidad);
+    Tipos nuevoTipo(codigoTipo, nombre, descripcion, dondeSeUtilizan, cantidad);
 
     // Agregar el nuevo tipo a la lista de tipos
     datosSistema.listaTipos.push_back(nuevoTipo);
 
-    cout << "Tipo agregado correctamente." << endl;
+    // Agregar el nuevo tipo a la lista de tipos del componente correspondiente
+    itComponente->tipos.push_back(nuevoTipo);
+
+    cout << "Tipo agregado correctamente al componente." << endl;
 }
+
 
 
 //FUNCIONES DE CONSULTA
 
+//Funcion que permite contabilizar el total de componentes
+//Fecha de inicio: 21/9/2023
+//Fecha última modificación: 22/9/2023.
 int countTotalComponents(const std::list<ComponenteRequerido>& compRequeridos) {
     int totalComponents = 0;
 
@@ -377,6 +461,9 @@ int countTotalComponents(const std::list<ComponenteRequerido>& compRequeridos) {
     return totalComponents;
 }
 
+//Funcion que permite la primera consulta: curso que requiere mas componentes.
+//Fecha de inicio: 21/9/2023
+//Fecha última modificación: 22/9/2023.
 Curso cursoReqMasComponentes() {
     Curso cursoConMasComponentes;
     int maxTotalComponents = 0;
@@ -399,7 +486,9 @@ Curso cursoReqMasComponentes() {
     return cursoConMasComponentes;
 }
 
-
+//Funcion que permite la segunda consulta: estudiante con mas proyectos asignados
+//Fecha de inicio: 21/9/2023
+//Fecha última modificación: 22/9/2023.
 list<Estudiante> estuConMasProyectos() {
     list<Estudiante> estConMasProyectos;
     int maxProyectos = 0;
@@ -407,7 +496,7 @@ list<Estudiante> estuConMasProyectos() {
     for (const auto& estudiante : datosSistema.listaEstudiantes) {
         int totalProyectos = 0;
 
-        // Calculate the total number of projects for each course in the student's matricula
+        // Calcula el tota de proyecto de cada curso en la matricula del estudiante
         for (const auto& curso : estudiante.listaMatricula) {
             totalProyectos += curso.listaProyectos.size();
         }
@@ -426,7 +515,7 @@ list<Estudiante> estuConMasProyectos() {
             cout << estudiante.ToString() << "\n\n";
         }
     }else if (estConMasProyectos.size() == 1) {
-    // Print the information for the student with the most projects
+    // Imprime el estudiante con mas proyectos
     cout << "Estudiante con más proyectos (" << maxProyectos << " proyectos):\n";
     cout << estConMasProyectos.front().ToString() << "\n";
     } else {
@@ -437,7 +526,9 @@ list<Estudiante> estuConMasProyectos() {
     return estConMasProyectos;
 }
 
-
+//Funcion que permite la tercera consulta: proyecto que requiere más tipos de componentes
+//Fecha de inicio: 21/9/2023
+//Fecha última modificación: 22/9/2023.
 Proyecto proyectoConMasTiposComponentes() {
     Proyecto proyectoConMasTipos;
     int maxComponentTypes = 0;
@@ -445,12 +536,12 @@ Proyecto proyectoConMasTiposComponentes() {
     for (const auto& proyecto : datosSistema.listaProyectos) {
         unordered_set<string> uniqueComponentTypes;
 
-        // Count the unique types of components for this project
+        // Cuenta los tipos unico de componentesr para el proyecto
         for (const auto& componenteRequerido : proyecto.compRequeridos) {
             uniqueComponentTypes.insert(componenteRequerido.tipoComponente.nombre);
         }
 
-        // Update the project with the most unique component types
+        // Actualiza el proyecto con más tipos de componentes unicos
         if (uniqueComponentTypes.size() > maxComponentTypes) {
             maxComponentTypes = uniqueComponentTypes.size();
             proyectoConMasTipos = proyecto;
@@ -460,6 +551,9 @@ Proyecto proyectoConMasTiposComponentes() {
     return proyectoConMasTipos;
 }
 
+//Es el submenu de las inserciones permitidas
+//Fecha de inicio: 14/9/2023
+//Fecha última modificación: 20/9/2023.
 void menuInserciones(){
     int opcionInserciones;
     bool salirInserciones = false;
@@ -516,6 +610,9 @@ void menuInserciones(){
     }
 }
 
+//Es el submenu de las ediciones permitidas
+//Fecha de inicio: 14/9/2023
+//Fecha última modificación: 20/9/2023.
 void menuEdiciones(){
     int opcionEdicion;
     bool salirEdicion = false;
@@ -545,6 +642,39 @@ void menuEdiciones(){
     }
 }
 
+void ConsultarListaMorosos(const ListaMorosos& listaMorosos) {
+    cout << "=== Lista de Estudiantes Morosos ===" << endl;
+
+    if (listaMorosos.estudiantes.empty()) {
+        cout << "No hay estudiantes morosos en la lista." << endl;
+    } else {
+        // Iterar a través de la lista de morosos
+        auto itEstudiante = listaMorosos.estudiantes.begin();
+        auto itTipoComponente = listaMorosos.tiposComponentes.begin();
+        auto itCantidadPendiente = listaMorosos.cantidadPendiente.begin();
+
+        while (itEstudiante != listaMorosos.estudiantes.end() &&
+               itTipoComponente != listaMorosos.tiposComponentes.end() &&
+               itCantidadPendiente != listaMorosos.cantidadPendiente.end()) {
+            // Mostrar información del estudiante moroso y la deuda
+            cout << "Estudiante: " << itEstudiante->nombre << " " << itEstudiante->apellido << endl;
+            cout << "Tipo de Componente: " << itTipoComponente->nombre << endl;
+            cout << "Cantidad Pendiente: " << *itCantidadPendiente << endl;
+
+            // Avanzar a la siguiente entrada en la lista
+            ++itEstudiante;
+            ++itTipoComponente;
+            ++itCantidadPendiente;
+
+            cout << "-----------------------------" << endl;
+        }
+    }
+}
+
+
+////Es el submenu de las consulas que puede realizar el usuario
+//Fecha de inicio: 14/9/2023
+//Fecha última modificación: 20/9/2023.
 void consultas(){
     int opcionConsulta;
     bool salirConsutla = false;
@@ -590,6 +720,9 @@ void consultas(){
             case 8:
                 salirConsutla = true;
                 break;
+            case 9:
+                ConsultarListaMorosos(datosSistema.listaMorosos);
+                break;
             default:
                 cout << "Opción no válida." << endl;
                 break;
@@ -597,6 +730,9 @@ void consultas(){
     }
 }
 
+//Funcion que genera el primer reporte: informacion de todas las listas con sublistas respectivas
+//Fecha de inicio: 20/9/2023
+//Fecha última modificación: 22/9/2023.
 void GenerarReporte() {
     // Imprime la información de la lista de estudiantes
     cout << "=== Lista de Estudiantes ===" << endl;
@@ -637,6 +773,9 @@ void GenerarReporte() {
     cout << datosSistema.listaMorosos.ToString() << "\n\n";
 }
 
+//Funcion que permite generar el segundo reporte: imprimir estudiantes sin matricula
+//Fecha de inicio: 20/9/2023
+//Fecha última modificación: 22/9/2023.
 void GenerarReporteEstudiantesSinMatricula() {
     cout << "=== Estudiantes sin Matrícula ===" << endl;
     
@@ -656,36 +795,59 @@ void GenerarReporteEstudiantesSinMatricula() {
     }
 }
 
+//Funcion que permite generar el tercer reporte: estudiantes sin prestamos
+//Fecha de inicio: 20/9/2023
+//Fecha última modificación: 22/9/2023.
 void GenerarReporteEstudiantesSinPrestamos() {
-    cout << "=== Estudiantes sin Préstamos ===" << endl;
+    cout << "***Estudiantes sin Préstamos***" << endl;
 
     for (auto& estudiante : datosSistema.listaEstudiantes) {
         if (estudiante.listaPrestamos.size() <= 0){
-            cout << estudiante.ToString() << "\n\n";
+            cout <<"Nombre: " << estudiante.nombre <<" " << estudiante.apellido <<"\n";
+            cout <<"Cédula: "<< estudiante.cedula << "\n";
+            cout <<"Carné: "<< estudiante.carnet << "\n\n";
         }
     }
 
 }
 
-void GenerarReporteTiposComponentesCantidadCero() {
-    cout << "=== Tipos de Componentes con Cantidad Cero ===" << endl;
+//Funcion que permite generar el cuarto repore: tipos de componentes con cantidad 0
+//Fecha de inicio: 21/9/2023
+//Fecha última modificación: 22/9/2023.
+void CompCantCero(const DatosSistema& datosSistema) {
+    cout << "=== Componentes con Tipos de Cantidad Cero ===" << endl;
 
-    bool hayTiposConCantidadCero = false;
+    for (const Componente& componente : datosSistema.listaComponentes) {
+        bool tieneTipoConCantidadCero = false;
 
-    for (auto& tipo : datosSistema.listaTipos) {
-        if (tipo.cantidad == 0) {
-            cout << tipo.ToString() << "\n\n";
-
-            hayTiposConCantidadCero = true;
+        // Verificar si alguno de los tipos del componente tiene cantidad igual a 0
+        for (const Tipos& tipo : componente.tipos) {
+            if (tipo.cantidad == 0) {
+                tieneTipoConCantidadCero = true;
+                break;
+            }
         }
-    }
 
-    if (!hayTiposConCantidadCero) {
-        cout << "No hay tipos de componentes con cantidad igual a cero." << endl;
+        if (tieneTipoConCantidadCero) {
+            cout << "Componente: " << componente.nombre << endl;
+            cout << "Tipos:" << endl;
+
+            for (const Tipos& tipo : componente.tipos) {
+                if (tipo.cantidad == 0) {
+                    cout << tipo.nombre << endl;
+                    cout << "Cantidad: " << tipo.cantidad << endl;
+                }
+            }
+
+            cout << "=================================" << endl;
+        }
     }
 }
 
 
+//Submenu que permite al usuario seleccionar un reporte a desplegar
+//Fecha de inicio: 216/9/2023
+//Fecha última modificación: 22/9/2023.
 void reportes(){
     int opcionReporte;
     bool salirReporte = false;
@@ -715,6 +877,7 @@ void reportes(){
                 break;
             case 4:
                 cout << "4. Tipos de componentes con cantidad 0." << endl;
+                CompCantCero(datosSistema);
                 break;
             case 5:
                 salirReporte = true;
@@ -726,6 +889,9 @@ void reportes(){
     }
 }
 
+//Menu principal del sistema con las opciones para insertar datos, modifica, eliminar, realizar consulas o ver reportes
+//Fecha de inicio: 16/9/2023
+//Fecha última modificación: 22/9/2023.
 void menu(){
     agregarDatosAlDatosSistema();
     int opcionMenu;
@@ -768,6 +934,7 @@ void menu(){
     }
 }
 
+//Main del programa, llama a Menu() que es la funcion del menú principal en donde se ejecuta el resto de lógica de submenus.
 int main() {
     system("cls");
     menu();

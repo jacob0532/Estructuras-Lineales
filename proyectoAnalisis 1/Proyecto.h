@@ -8,9 +8,11 @@ using namespace std;
 
 /*
 Fecha de inicio: 15/9/2023
-Fecha última modificación: 15/9/2023 .
-Descripción para cada estructura (clase) y su uso en el programa,
-Describir cada función e instrucciones dentro de estas.*/
+Fecha última modificación: 20/9/2023 .
+la clase Proyecto representa los proyectos
+que tienen los cursos dentro del programa.
+*/
+
 // Definición del struct ComponenteRequerido
 struct ComponenteRequerido {
     // Atributos del struct ComponenteRequerido
@@ -18,6 +20,7 @@ struct ComponenteRequerido {
     int cantMinRequerida;
 };
 
+//Se definen los atributos que utiliza la clase Componente
 class Proyecto {
 public:
     string nombre;
@@ -27,7 +30,7 @@ public:
 
 public:
     Proyecto() = default;
-    Proyecto(string nombre, string descripcion, double valorPorcentual);
+    Proyecto(string nombre, string descripcion, double valorPorcentual); //constructor de la clas ListaMorosos
     
     // Método para obtener una representación en string del proyecto
     string ToString() const;

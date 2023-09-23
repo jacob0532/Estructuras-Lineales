@@ -5,10 +5,13 @@
 
 using namespace std;
 /*
-Fecha de inicio: 15/9/2023
-Fecha última modificación: 15/9/2023 .
-Descripción para cada estructura (clase) y su uso en el programa,
-Describir cada función e instrucciones dentro de estas.*/
+Fecha de inicio: 13/9/2023
+Fecha última modificación: 18/9/2023.
+la clase Tipos representa los tipos de
+componentes existentes en el contexto del proyecto dentro del programa
+*/
+
+//Se definen los atributos que utiliza la clase Componente
 class Tipos {
 public:
     string codigo;
@@ -19,9 +22,9 @@ public:
 
 public:
     Tipos() = default;
-    Tipos(string codigo, string nombre, string descripcion, string dondeSeUtilizan, int cantidad);
+    Tipos(string codigo, string nombre, string descripcion, string dondeSeUtilizan, int cantidad); //constructor de la clase Tipos
     
-    // Método para obtener una representación en string del tipo de componente
+    // Método que permite obtener una representación en string del tipo de componente
     string ToString();
 };
 
