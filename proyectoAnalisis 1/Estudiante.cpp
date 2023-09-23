@@ -61,3 +61,5 @@ bool Estudiante::SolicitarPrestamo(Componente tipoComponente, int cantidad) {
     cout << "No se puede prestar este componente debido a que no es necesario en ninguno de tus proyectos o no hay suficiente cantidad disponible." << endl;
     return false;
 }
+
+

@@ -133,6 +133,21 @@ void agregarDatosAlDatosSistema(){
     }
 }
 
+
+void ImprimirNombreYCarnet(const list<Estudiante>& listaEstudiantes) {
+    cout << "=== Estudiantes ===" << endl;
+    for (const Estudiante& estudiante : listaEstudiantes) {
+        cout << "Nombre: " << estudiante.nombre << ", Carnet: " << estudiante.carnet << endl;
+    }
+}
+
+void ImprimirCodigoComponente(const list<Componente>& listaComponentes) {
+    cout << "=== Componentes ===" << endl;
+    for (const Componente& componente : listaComponentes) {
+        cout << "Nombre: " << componente.nombre << ", Codigo: " << componente.codigo << endl;
+    }
+}
+
 //Funcion que permite insertar un estudiane al sistema, lo incluye en la lista de estudiantes definida el inicio.
 //Fecha de inicio: 17/9/2023
 //Fecha última modificación: 21/9/2023.
@@ -177,7 +192,7 @@ void InsertarCurso(DatosSistema& datosSistema) {
     string codigo, nombre;
     int creditos;
 
-    cout << "Ingrese el código del curso: ";
+    cout << "Ingrese el codigo del curso: ";
     cin >> codigo;
 
     cout << "Ingrese el nombre del curso: ";
@@ -203,7 +218,7 @@ void InsertarComponente(DatosSistema& datosSistema) {
     string codigo, nombre, descripcion, aplicaciones;
     Clasificacion clasificacion;
 
-    cout << "Ingrese el código del componente: ";
+    cout << "Ingrese el codigo del componente: ";
     cin >> codigo;
 
     cout << "Ingrese el nombre del componente: ";
@@ -260,7 +275,7 @@ void InsertarProyecto(DatosSistema& datosSistema) {
         cin >> agregarComponente;
 
         if (agregarComponente == 'S' || agregarComponente == 's') {
-            cout << "Ingrese el código del componente requerido: ";
+            cout << "Ingrese el codigo del componente requerido: ";
             cin >> codigoComponente;
 
             // Buscar el componente en la lista de componentes dentro de datosSistema
@@ -281,7 +296,7 @@ void InsertarProyecto(DatosSistema& datosSistema) {
                 nuevoProyecto.compRequeridos.push_back(componenteRequerido);
                 cout << "Componente requerido agregado correctamente." << endl;
             } else {
-                cout << "Componente no encontrado. Verifique el código." << endl;
+                cout << "Componente no encontrado. Verifique el codigo." << endl;
             }
         }
     } while (agregarComponente == 'S' || agregarComponente == 's');
@@ -300,7 +315,7 @@ void InsertarEstudianteListaEspera(DatosSistema& datosSistema) {
     string carnet;
     Componente tipoComponente;
     int cantidad;
-
+    ImprimirNombreYCarnet(datosSistema.listaEstudiantes);
     cout << "Ingrese el carnet del estudiante: ";
     cin >> carnet;
 
@@ -314,8 +329,8 @@ void InsertarEstudianteListaEspera(DatosSistema& datosSistema) {
         cout << "Estudiante no encontrado. Verifique el carnet." << endl;
         return;
     }
-
-    cout << "Ingrese el código del tipo de componente: ";
+    ImprimirCodigoComponente(datosSistema.listaComponentes);
+    cout << "Ingrese el codigo del tipo de componente: ";
     cin >> tipoComponente.codigo;
 
     // Buscar el tipo de componente en la lista de componentes dentro de datosSistema
@@ -325,7 +340,7 @@ void InsertarEstudianteListaEspera(DatosSistema& datosSistema) {
         });
 
     if (itTipoComponente == datosSistema.listaComponentes.end()) {
-        cout << "Tipo de componente no encontrado. Verifique el código." << endl;
+        cout << "Tipo de componente no encontrado. Verifique el codigo." << endl;
         return;
     }
 
@@ -346,7 +361,7 @@ void InsertarEstudianteListaEspera(DatosSistema& datosSistema) {
 void InsertarListaMorosos(DatosSistema& datosSistema) {
     string carnet, codigoComponente;
     int cantidadPendiente;
-
+    ImprimirNombreYCarnet(datosSistema.listaEstudiantes);
     cout << "Ingrese el carnet del estudiante moroso: ";
     cin >> carnet;
 
@@ -360,8 +375,8 @@ void InsertarListaMorosos(DatosSistema& datosSistema) {
         cout << "Estudiante no encontrado. Verifique el carnet." << endl;
         return; // Salir de la función si el estudiante no se encuentra
     }
-
-    cout << "Ingrese el código del tipo de componente por el cual está en deuda: ";
+    ImprimirCodigoComponente(datosSistema.listaComponentes);
+    cout << "Ingrese el codigo del tipo de componente por el cual está en deuda: ";
     cin >> codigoComponente;
 
     // Buscar el tipo de componente en la lista de componentes
@@ -371,7 +386,7 @@ void InsertarListaMorosos(DatosSistema& datosSistema) {
         });
 
     if (itComponente == datosSistema.listaComponentes.end()) {
-        cout << "Tipo de componente no encontrado. Verifique el código." << endl;
+        cout << "Tipo de componente no encontrado. Verifique el codigo." << endl;
         return; // Salir de la función si el tipo de componente no se encuentra
     }
 
@@ -389,33 +404,33 @@ void InsertarListaMorosos(DatosSistema& datosSistema) {
 void InsertarTipo(DatosSistema& datosSistema) {
     string codigoComponente, codigoTipo, nombre, descripcion, dondeSeUtilizan;
     int cantidad;
-
-    cout << "Ingrese el código del componente al que desea agregar el tipo: ";
+    ImprimirCodigoComponente(datosSistema.listaComponentes);
+    cout << "Ingrese el codigo del componente al que desea agregar el tipo: ";
     cin >> codigoComponente;
 
-    // Verificar si el código del componente existe en la lista de componentes
+    // Verificar si el codigo del componente existe en la lista de componentes
     auto itComponente = find_if(datosSistema.listaComponentes.begin(), datosSistema.listaComponentes.end(),
         [codigoComponente](const Componente& componente) {
             return componente.codigo == codigoComponente;
         });
 
     if (itComponente == datosSistema.listaComponentes.end()) {
-        cout << "El código del componente no existe en la lista de componentes." << endl;
-        return; // Salir de la función si el código del componente no existe
+        cout << "El codigo del componente no existe en la lista de componentes." << endl;
+        return; // Salir de la función si el codigo del componente no existe
     }
 
-    cout << "Ingrese el código del tipo: ";
+    cout << "Ingrese el codigo del tipo: ";
     cin >> codigoTipo;
 
-    // Verificar si el código del tipo ya existe en la lista de tipos
+    // Verificar si el codigo del tipo ya existe en la lista de tipos
     auto itTipoExistente = find_if(datosSistema.listaTipos.begin(), datosSistema.listaTipos.end(),
         [codigoTipo](const Tipos& tipo) {
             return tipo.codigo == codigoTipo;
         });
 
     if (itTipoExistente != datosSistema.listaTipos.end()) {
-        cout << "El código del tipo ya existe. No se puede duplicar." << endl;
-        return; // Salir de la función si ya existe el código del tipo
+        cout << "El codigo del tipo ya existe. No se puede duplicar." << endl;
+        return; // Salir de la función si ya existe el codigo del tipo
     }
 
     cin.ignore();
@@ -555,11 +570,12 @@ Proyecto proyectoConMasTiposComponentes() {
 //Fecha de inicio: 14/9/2023
 //Fecha última modificación: 20/9/2023.
 void menuInserciones(){
+    system("cls");
     int opcionInserciones;
     bool salirInserciones = false;
     while (salirInserciones!=true) {
         cout << "\n";
-        cout << "-------- Menú de Inserciones --------" << endl;
+        cout << "-------- Menu de Inserciones --------" << endl;
         cout << "1. Ingresar Estudiante" << endl;
         cout << "2. Ingresar Curso" << endl;
         cout << "3. Ingresar Componente" << endl;
@@ -567,9 +583,9 @@ void menuInserciones(){
         cout << "5. Ingresar Lista de Espera" << endl;
         cout << "6. Ingresar Lista de Morosos" << endl;
         cout << "7. Ingresar Tipos" << endl;
-        cout << "8. Volver al Menú Principal" << endl;
+        cout << "8. Volver al Menu Principal" << endl;
         cout << "-------------------------------------" << endl;
-        cout << "Seleccione una opción:";
+        cout << "Seleccione una opcion:";
         cin >> opcionInserciones;
         switch(opcionInserciones){
             case 1:
@@ -604,7 +620,7 @@ void menuInserciones(){
                 salirInserciones = true;
                 break;
             default:
-                cout << "Opción no válida." << endl;
+                cout << "opcion no válida." << endl;
                 break;
         }
     }
@@ -618,12 +634,12 @@ void menuEdiciones(){
     bool salirEdicion = false;
     while (salirEdicion!=true) {
         cout << "\n";
-        cout << "-------- Menú de Ediciones --------" << endl;
+        cout << "-------- Menu de Ediciones --------" << endl;
         cout << "1. Editar Cursos" << endl;
         cout << "2. Editar Componentes" << endl;
-        cout << "3. Volver al Menú Principal" << endl;
+        cout << "3. Volver al Menu Principal" << endl;
         cout << "-------------------------------------" << endl;
-        cout << "Seleccione una opción:";
+        cout << "Seleccione una opcion:";
         cin >> opcionEdicion;
         switch(opcionEdicion){
             case 1:
@@ -636,7 +652,7 @@ void menuEdiciones(){
                 salirEdicion = true;
                 break;
             default:
-                cout << "Opción no válida." << endl;
+                cout << "opcion no válida." << endl;
                 break;
         }
     }
@@ -697,16 +713,73 @@ void MostrarListaEspera(const ListaEspera& listaEspera) {
     }
 }
 
+int SumarComponentesPorCarnet(const ListaMorosos& listaMorosos, const string& carnet) {
+    int totalComponentes = 0;
+
+    auto itEstudiante = listaMorosos.estudiantes.begin();
+    auto itTipoComponente = listaMorosos.tiposComponentes.begin();
+    auto itCantidadPendiente = listaMorosos.cantidadPendiente.begin();
+
+    while (itEstudiante != listaMorosos.estudiantes.end() &&
+           itTipoComponente != listaMorosos.tiposComponentes.end() &&
+           itCantidadPendiente != listaMorosos.cantidadPendiente.end()) {
+        if (itEstudiante->carnet == carnet) {
+            totalComponentes += *itCantidadPendiente;
+        }
+
+        ++itEstudiante;
+        ++itTipoComponente;
+        ++itCantidadPendiente;
+    }
+
+    return totalComponentes;
+}
+
+// Función para encontrar al estudiante con la mayor morosidad
+void EstudianteConMayorMorosidad(const ListaMorosos& listaMorosos) {
+    int maxCantidad = 0;
+    int cantidadEst = 0;
+    Estudiante estudiante;
+    cout << endl<< "=== Estudiantes mas Moroso ===" << endl;
+    if (listaMorosos.estudiantes.empty()) {
+        cout << "No hay estudiantes morosos en la lista." << endl;
+    }else {
+        // Iterar a través de la lista de morosos
+        auto itEstudiante = listaMorosos.estudiantes.begin();
+        auto itTipoComponente = listaMorosos.tiposComponentes.begin();
+        auto itCantidadPendiente = listaMorosos.cantidadPendiente.begin();
+        while (itEstudiante != listaMorosos.estudiantes.end() &&
+               itTipoComponente != listaMorosos.tiposComponentes.end() &&
+               itCantidadPendiente != listaMorosos.cantidadPendiente.end()) {
+            cantidadEst = SumarComponentesPorCarnet(listaMorosos,itEstudiante->carnet);
+            if(cantidadEst>maxCantidad){
+                maxCantidad = cantidadEst;
+                estudiante = *itEstudiante;
+            }
+            ++itEstudiante;
+            ++itTipoComponente;
+            ++itCantidadPendiente;
+        }
+    }
+    cout << "El estudiante con mayor morosidad es: " << endl;
+    cout << "Nombre: "<<estudiante.nombre <<" Carnet: "<< estudiante.carnet << " Cantidad TOTAL pendiente: " << maxCantidad<< endl;
+    return;
+}
+
+
+
+
 
 ////Es el submenu de las consulas que puede realizar el usuario
 //Fecha de inicio: 14/9/2023
 //Fecha última modificación: 20/9/2023.
 void consultas(){
+    system("cls");
     int opcionConsulta;
     bool salirConsutla = false;
     while (salirConsutla!=true) {
         cout << "\n";
-        cout << "-------- Menú de Consultas --------" << endl;
+        cout << "-------- Menu de Consultas --------" << endl;
         cout << "1. Curso que requiere mas componentes electronicos en general" << endl;
         cout << "2. Estudiante con mas proyectos asignados" << endl;
         cout << "3. Proyecto que requiere mas tipos de componentes" << endl;
@@ -714,9 +787,9 @@ void consultas(){
         cout << "5. Primeros tres tipos de componente requeridos por escasez" << endl;
         cout << "6. Estudiante con mas tipos de componente prestados" << endl;
         cout << "7. Estudiante con mayor morosidad" << endl;
-        cout << "8. Volver al Menú Principal" << endl;
+        cout << "8. Volver al Menu Principal" << endl;
         cout << "-------------------------------------" << endl;
-        cout << "Seleccione una opción:";
+        cout << "Seleccione una opcion:";
         cin >> opcionConsulta;
         switch(opcionConsulta){
             case 1:
@@ -742,6 +815,7 @@ void consultas(){
                 break;
             case 7:
                 cout << "7. Estudiante con mayor morosidad" << endl;
+                EstudianteConMayorMorosidad(datosSistema.listaMorosos);
                 break;
             case 8:
                 salirConsutla = true;
@@ -753,7 +827,7 @@ void consultas(){
                 MostrarListaEspera(datosSistema.listaEspera);
                 break;
             default:
-                cout << "Opción no válida." << endl;
+                cout << "opcion no válida." << endl;
                 break;
         }
     }
@@ -878,18 +952,19 @@ void CompCantCero(const DatosSistema& datosSistema) {
 //Fecha de inicio: 216/9/2023
 //Fecha última modificación: 22/9/2023.
 void reportes(){
+    system("cls");
     int opcionReporte;
     bool salirReporte = false;
     while (salirReporte!=true) {
         cout << "\n";
-        cout << "-------- Menú de Reportes --------" << endl;
+        cout << "-------- Menu de Reportes --------" << endl;
         cout << "1. Información de todas las listas" << endl;
         cout << "2. Estudiantes sin matricula" << endl;
         cout << "3. Estudiantes sin préstamos" << endl;
         cout << "4. Tipos de componentes con cantidad 0." << endl;
-        cout << "5. Volver al Menú Principal" << endl;
+        cout << "5. Volver al Menu Principal" << endl;
         cout << "-------------------------------------" << endl;
-        cout << "Seleccione una opción:";
+        cout << "Seleccione una opcion:";
         cin >> opcionReporte;
         switch(opcionReporte){
             case 1:
@@ -912,7 +987,7 @@ void reportes(){
                 salirReporte = true;
                 break;
             default:
-                cout << "Opción no válida." << endl;
+                cout << "opcion no válida." << endl;
                 break;
         }
     }
@@ -922,6 +997,7 @@ void reportes(){
 //Fecha de inicio: 16/9/2023
 //Fecha última modificación: 22/9/2023.
 void menu(){
+    system("cls");
     agregarDatosAlDatosSistema();
     int opcionMenu;
     bool salir=false;
@@ -942,7 +1018,7 @@ void menu(){
                 menuInserciones();
                 break;
             case 2:
-                menuEdiciones();
+                //menuEdiciones();
                 break;
             case 3:
                 /*cout << "Ingrese el carnet del estudiante a borrar: ";
