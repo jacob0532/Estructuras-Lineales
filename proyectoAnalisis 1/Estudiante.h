@@ -6,6 +6,7 @@
 #include "Proyecto.h"
 #include <string>
 #include <list>
+#include "Tipos.h"
 
 using namespace std;
 /*
@@ -17,7 +18,7 @@ Esta clase representa a los estudiantes dentro del programa
 // Definición del struct PrestamoTiposC
 struct PrestamoTiposC {
     // Atributos del struct 
-    Componente tipoComponente;
+    Tipos tipoComponente;
     Proyecto proyecto;
     int cantidad;
 };
@@ -39,7 +40,7 @@ public:
     Estudiante(string carnet, string nombre, string apellido, string cedula, int edad, string lugarResidencia); //constructor de la clase Estudiante
     
     // Método permite obtener una representación en string del estudiante
-    string ToString();
+    string ToString() const;
     //Método que permite al estudiante solicitar un prestamo
     bool SolicitarPrestamo(Componente tipoComponente, int cantidad);
 };
