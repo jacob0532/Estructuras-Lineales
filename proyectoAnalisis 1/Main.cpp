@@ -505,6 +505,57 @@ void InsertarTipo(DatosSistema& datosSistema) {
     cout << "Tipo agregado correctamente al componente." << endl;
 }
 
+void DevolverPrestamo(DatosSistema& datosSistema) {
+    string carnet;
+    string codigoTipoComponente;
+    int cantidad;
+
+    cout << "Ingrese el carnet del estudiante: ";
+    cin >> carnet;
+
+    // Buscar el estudiante en la lista de estudiantes dentro de datosSistema
+    auto itEstudiante = find_if(datosSistema.listaEstudiantes.begin(), datosSistema.listaEstudiantes.end(),
+        [carnet](const Estudiante& estudiante) {
+            return estudiante.carnet == carnet;
+        });
+
+    if (itEstudiante == datosSistema.listaEstudiantes.end()) {
+        cout << "Estudiante no encontrado. Verifique el carnet." << endl;
+        return;
+    }
+
+    cout << "Ingrese el código del tipo de componente que desea devolver: ";
+    cin >> codigoTipoComponente;
+
+    // Buscar el tipo de componente en la lista de componentes dentro de datosSistema
+    auto itTipoComponente = find_if(datosSistema.listaComponentes.begin(), datosSistema.listaComponentes.end(),
+        [codigoTipoComponente](const Componente& componente) {
+            return componente.codigo == codigoTipoComponente;
+        });
+
+    if (itTipoComponente == datosSistema.listaComponentes.end()) {
+        cout << "Tipo de componente no encontrado. Verifique el código." << endl;
+        return;
+    }
+
+    cout << "Ingrese la cantidad a devolver: ";
+    cin >> cantidad;
+
+    // Buscar el préstamo del estudiante para el tipo de componente y cantidad especificados
+    auto itPrestamo = find_if(itEstudiante->listaPrestamos.begin(), itEstudiante->listaPrestamos.end(),
+        [codigoTipoComponente, cantidad](const PrestamoTiposC& prestamo) {
+            return prestamo.tipoComponente.codigo == codigoTipoComponente &&
+                   prestamo.cantidad == cantidad;
+        });
+
+    if (itPrestamo != itEstudiante->listaPrestamos.end()) {
+        // Devolver el préstamo
+        itEstudiante->listaPrestamos.erase(itPrestamo);
+        cout << "Préstamo devuelto correctamente." << endl;
+    } else {
+        cout << "No se encontró un préstamo con los datos especificados." << endl;
+    }
+}
 
 
 //FUNCIONES DE CONSULTA
@@ -779,6 +830,7 @@ void menuInserciones(){
             case 6:
                 cout << "Regresar Componente." << endl;
                 //InsertarListaMorosos(datosSistema);
+                DevolverPrestamo(datosSistema);
                 break;
             case 7:
                 cout << "Insertar Tipos." << endl;
@@ -1123,6 +1175,22 @@ void CompCantCero(const DatosSistema& datosSistema) {
     }
 }
 
+void EliminarEstudiante(DatosSistema& datosSistema, const string& carnet) {
+    // Buscar el estudiante en la lista de estudiantes
+    auto itEstudiante = find_if(datosSistema.listaEstudiantes.begin(), datosSistema.listaEstudiantes.end(),
+        [carnet](const Estudiante& estudiante) {
+            return estudiante.carnet == carnet;
+        });
+
+    if (itEstudiante != datosSistema.listaEstudiantes.end()) {
+        // Eliminar el estudiante de la lista
+        datosSistema.listaEstudiantes.erase(itEstudiante);
+        cout << "Estudiante eliminado correctamente." << endl;
+    } else {
+        cout << "Estudiante no encontrado. Verifique el carnet." << endl;
+    }
+}
+
 
 //Submenu que permite al usuario seleccionar un reporte a desplegar
 //Fecha de inicio: 216/9/2023
@@ -1177,6 +1245,7 @@ void menu(){
     agregarDatosAlDatosSistema();
     int opcionMenu;
     bool salir=false;
+    string crne;
     while(salir!=true){
         cout<<"\n";
         cout<<"------------------Menu-------------------------------"<<endl;
@@ -1197,10 +1266,9 @@ void menu(){
                 //menuEdiciones();
                 break;
             case 3:
-                /*cout << "Ingrese el carnet del estudiante a borrar: ";
-                string carnet;
-                cin >> carnet;
-                eliminarEstudiante();*/
+                cout << "Ingrese el carnet del estudiante a borrar: ";
+                cin >> crne;
+                EliminarEstudiante(datosSistema, crne);
                 break;
             case 4:
                 consultas();
