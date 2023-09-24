@@ -2,6 +2,7 @@
 #define PROYECTO_H
 
 #include "Componente.h"
+#include "Tipos.h"
 #include <string>
 
 using namespace std;
@@ -16,7 +17,7 @@ que tienen los cursos dentro del programa.
 // Definición del struct ComponenteRequerido
 struct ComponenteRequerido {
     // Atributos del struct ComponenteRequerido
-    Componente tipoComponente;
+    Tipos tipoComponente;
     int cantMinRequerida;
 };
 

@@ -13,6 +13,8 @@
 #include "Tipos.h"
 #include <algorithm>
 #include <unordered_set> 
+#include <unordered_map>
+#include <set>  // Add this line to include set
 
 using namespace std;
 
@@ -33,9 +35,10 @@ DatosSistema datosSistema;  // Instancia de DatosDatosSistema
 //Fecha de inicio: 18/9/2023
 //Fecha última modificación: 21/9/2023.
 void agregarDatosAlDatosSistema(){
-    for (int i = 1; i <= 5; ++i) {
+    string nombresTipos[] = {"Tipo led","Tipo inductor","Tipo cristal","Tipo metal","Tipo E13B"};
+    for (int i = 0; i < 5; ++i) {
         string codigo = "T" + to_string(i);
-        string nombre = "Tipo" + to_string(i);
+        string nombre = nombresTipos[i];
         string descripcion = "Descripcion del tipo " + to_string(i);
         string dondeSeUtilizan = "Donde se utilizan el tipo " + to_string(i);
         int cantidad = 1 + i;
@@ -44,7 +47,7 @@ void agregarDatosAlDatosSistema(){
 
         datosSistema.listaTipos.push_front(tipo);
     }
-    string nombresPasivos[] = {"Resistor", "Condensador", "Inductor", "Diodo", "Transformador"};
+    string nombresPasivos[] = {"Resistencias", "Capacitores", "Inductores", "Condensadores", "Transformadores"};
     for (int i = 0; i < 5; ++i) {
         string codigo = "CP" + to_string(i + 1);
         string nombre = nombresPasivos[i];
@@ -61,7 +64,7 @@ void agregarDatosAlDatosSistema(){
     }
 
     // Nombres para componentes eléctricos activos
-    string nombresActivos[] = {"Transistor", "Amplificador operacional", "Diodo emisor de luz (LED)", "Triac", "Optoacoplador"};
+    string nombresActivos[] = {"Transistores", "Amplificadores", "Diodos", "Triacs", "Contadores"};
     for (int i = 0; i < 5; ++i) {
         string codigo = "CA" + to_string(i + 1);
         string nombre = nombresActivos[i];
@@ -78,7 +81,7 @@ void agregarDatosAlDatosSistema(){
     }
     for (int i = 1; i <= 10; ++i) {
         string nombre = "Proyecto" + to_string(i);
-        string descripcion = "Descripción del proyecto " + to_string(i);
+        string descripcion = "descripcion del proyecto " + to_string(i);
         double valorPorcentual = 1;
 
         // Crear un objeto Proyecto utilizando el constructor
@@ -87,7 +90,7 @@ void agregarDatosAlDatosSistema(){
         ComponenteRequerido componenteRequerido;
         srand(static_cast<unsigned int>(std::time(nullptr)));
         int numeroAleatorio = rand() % 10;
-        auto it = datosSistema.listaComponentes.begin();
+        auto it = datosSistema.listaTipos.begin();
         advance(it, numeroAleatorio);
         componenteRequerido.tipoComponente = *it;
         componenteRequerido.cantMinRequerida = i * 2;
@@ -225,7 +228,7 @@ void InsertarComponente(DatosSistema& datosSistema) {
     cin.ignore();
     getline(cin, nombre);
 
-    cout << "Ingrese la descripción del componente: ";
+    cout << "Ingrese la descripcion del componente: ";
     getline(cin, descripcion);
 
     cout << "Ingrese las aplicaciones del componente: ";
@@ -256,7 +259,7 @@ void InsertarProyecto(DatosSistema& datosSistema) {
     cin.ignore();
     getline(cin, nombre);
 
-    cout << "Ingrese la descripción del proyecto: ";
+    cout << "Ingrese la descripcion del proyecto: ";
     getline(cin, descripcion);
 
     cout << "Ingrese el valor porcentual del proyecto: ";
@@ -279,12 +282,12 @@ void InsertarProyecto(DatosSistema& datosSistema) {
             cin >> codigoComponente;
 
             // Buscar el componente en la lista de componentes dentro de datosSistema
-            auto itComponente = find_if(datosSistema.listaComponentes.begin(), datosSistema.listaComponentes.end(),
-                [codigoComponente](const Componente& componente) {
+            auto itComponente = find_if(datosSistema.listaTipos.begin(), datosSistema.listaTipos.end(),
+                [codigoComponente](auto& componente) {
                     return componente.codigo == codigoComponente;
                 });
 
-            if (itComponente != datosSistema.listaComponentes.end()) {
+            if (itComponente != datosSistema.listaTipos.end()) {
                 cout << "Ingrese la cantidad requerida de " << itComponente->nombre << ": ";
                 cin >> cantidadRequerida;
 
@@ -438,7 +441,7 @@ void InsertarTipo(DatosSistema& datosSistema) {
     cout << "Ingrese el nombre del tipo: ";
     getline(cin, nombre);
 
-    cout << "Ingrese la descripción del tipo: ";
+    cout << "Ingrese la descripcion del tipo: ";
     getline(cin, descripcion);
 
     cout << "Ingrese dónde se utilizan este tipo: ";
@@ -531,7 +534,7 @@ list<Estudiante> estuConMasProyectos() {
         }
     }else if (estConMasProyectos.size() == 1) {
     // Imprime el estudiante con mas proyectos
-    cout << "Estudiante con más proyectos (" << maxProyectos << " proyectos):\n";
+    cout << "Estudiante con mas proyectos (" << maxProyectos << " proyectos):\n";
     cout << estConMasProyectos.front().ToString() << "\n";
     } else {
         cout << "No hay estudiantes con proyectos.\n";
@@ -541,7 +544,7 @@ list<Estudiante> estuConMasProyectos() {
     return estConMasProyectos;
 }
 
-//Funcion que permite la tercera consulta: proyecto que requiere más tipos de componentes
+//Funcion que permite la tercera consulta: proyecto que requiere mas tipos de componentes
 //Fecha de inicio: 21/9/2023
 //Fecha última modificación: 22/9/2023.
 Proyecto proyectoConMasTiposComponentes() {
@@ -556,7 +559,7 @@ Proyecto proyectoConMasTiposComponentes() {
             uniqueComponentTypes.insert(componenteRequerido.tipoComponente.nombre);
         }
 
-        // Actualiza el proyecto con más tipos de componentes unicos
+        // Actualiza el proyecto con mas tipos de componentes unicos
         if (uniqueComponentTypes.size() > maxComponentTypes) {
             maxComponentTypes = uniqueComponentTypes.size();
             proyectoConMasTipos = proyecto;
@@ -619,7 +622,7 @@ void menuInserciones(){
                 InsertarListaMorosos(datosSistema);
                 break;
             case 7:
-                cout << "Insertar Tipos." << endl;
+                cout << "Insertar Tipo De Componente" << endl;
                 InsertarTipo(datosSistema);
                 break;
             case 8:
@@ -719,6 +722,40 @@ void MostrarListaEspera(const ListaEspera& listaEspera) {
     }
 }
 
+void TresPrimerosTiposComponentesEscasez(){
+    //auto itCurso = datosSistema.listaEstudiantes.listaMatricula.begin();
+    //list<Proyecto> listaProyectos = *itCurso.listaProyectos;
+    for (auto itEstudiante = datosSistema.listaEstudiantes.begin(); itEstudiante != datosSistema.listaEstudiantes.end(); ++itEstudiante) {
+    cout << "Estudiante: " << itEstudiante->nombre << " " << itEstudiante->apellido << endl;
+    
+        for (auto itCurso = itEstudiante->listaMatricula.begin(); itCurso != itEstudiante->listaMatricula.end(); ++itCurso) {
+            cout << "Curso: " << itCurso->nombre << endl;
+            
+            list<Proyecto> listaProyectos = itCurso->listaProyectos;
+            for (const auto& proyecto : listaProyectos) {
+                list<ComponenteRequerido> listaTiposComponenteRequerido = proyecto.compRequeridos;
+                for(const auto& tipoComponenteRequerido : listaTiposComponenteRequerido){
+                    cout << "TipoComponente: " << tipoComponenteRequerido.tipoComponente.nombre << "Cantidad: " << tipoComponenteRequerido.tipoComponente.cantidad <<", Cantidad min requerida: " << tipoComponenteRequerido.cantMinRequerida << endl;
+                }
+            }
+        }
+    }
+}
+/*
+un curso tiene proyectos y un proyecto tiene componente requerido
+
+de un curso obtenemos los componentes
+<resistor,flipflop,condensador++,...> si el componente es repetido se suma
+
+luego tenemos una lista global que hace lo mismo 
+
+entonces tenemos una lista de todos los tipos de componentes que se requieren con su respectiva cantidad
+
+luego cantidad requerida se resta con la cantidad oficial de componente
+
+la lista resultado se ordena de menor a mayor*/
+
+
 int SumarComponentesPorCarnet(const ListaMorosos& listaMorosos, const string& carnet) {
     int totalComponentes = 0;
 
@@ -741,6 +778,126 @@ int SumarComponentesPorCarnet(const ListaMorosos& listaMorosos, const string& ca
     return totalComponentes;
 }
 
+int SumarComponentesPorCarnet2(const ListaEspera& listaEspera, const string& carnet) {
+    int totalComponentes = 0;
+
+    auto itEstudiante = listaEspera.estudiantes.begin();
+    auto itTipoComponente = listaEspera.tiposComponentes.begin();
+    auto itcantidad = listaEspera.cantidad.begin();
+
+    while (itEstudiante != listaEspera.estudiantes.end() &&
+           itTipoComponente != listaEspera.tiposComponentes.end() &&
+           itcantidad != listaEspera.cantidad.end()) {
+        if (itEstudiante->carnet == carnet) {
+            totalComponentes += *itcantidad;
+        }
+
+        ++itEstudiante;
+        ++itTipoComponente;
+        ++itcantidad;
+    }
+
+    return totalComponentes;
+}
+
+bool verificarCarnetEstudiante(const ListaEspera& listaEspera, const string& carnet) {
+
+    auto itEstudiante = listaEspera.estudiantes.begin();
+    auto itTipoComponente = listaEspera.tiposComponentes.begin();
+    auto itcantidad = listaEspera.cantidad.begin();
+
+    while (itEstudiante != listaEspera.estudiantes.end() &&
+           itTipoComponente != listaEspera.tiposComponentes.end() &&
+           itcantidad != listaEspera.cantidad.end()) {
+        if (itEstudiante->carnet == carnet) {
+            return true;
+        }
+
+        ++itEstudiante;
+        ++itTipoComponente;
+        ++itcantidad;
+    }
+    return false;
+}
+
+void EstudiantesEsperaMasDeUnComponente(const ListaEspera& listaEspera) {
+    unordered_map<string, int> contadorEstudiantes; 
+    int maxApariciones = 0; 
+    set<string> estudiantesRepetidos; 
+
+    cout << "=== Estudiantes que esperan por mas de un tipo de componente ===" << endl;
+
+    if (listaEspera.estudiantes.empty()) {
+        cout << "No hay estudiantes en la lista de espera." << endl;
+        return;
+    } else {
+        auto itEstudiante = listaEspera.estudiantes.begin();
+
+        while (itEstudiante != listaEspera.estudiantes.end()) {
+            // Incrementar el contador para este estudiante
+            contadorEstudiantes[itEstudiante->carnet]++;
+
+            // Actualizar el máximo de apariciones
+            maxApariciones = max(maxApariciones, contadorEstudiantes[itEstudiante->carnet]);
+
+            ++itEstudiante;
+        }
+
+        // Buscar a los estudiantes con el número máximo de apariciones
+        for (const auto& entry : contadorEstudiantes) {
+            if (entry.second == maxApariciones) {
+                estudiantesRepetidos.insert(entry.first);
+            }
+        }
+    }
+
+    // Imprimir los estudiantes que aparecen mas veces
+    cout << "Estudiantes que aparecen mas veces en la lista de espera y esperan por mas de un tipo de componente:" << endl;
+    for (const auto& carnet : estudiantesRepetidos) {
+        cout << "Carnet: " << carnet << " - Espera: " << maxApariciones << " componentes. " << endl;
+    }
+}
+
+
+
+void EstudiantesConMasComponentesPrestados(const ListaEspera& listaEspera) {
+    int maxCantidad = 0;
+    list<Estudiante> estudiantesConMaxComponentes;
+
+    cout << endl << "=== Estudiantes con mas tipos de componentes prestados ===" << endl;
+
+    if (listaEspera.estudiantes.empty()) {
+        cout << "No hay estudiantes con componentes prestados en la lista." << endl;
+        return;
+    } else {
+        auto itEstudiante = listaEspera.estudiantes.begin();
+        auto itTipoComponente = listaEspera.tiposComponentes.begin();
+        auto itcantidad = listaEspera.cantidad.begin();
+
+        while (itEstudiante != listaEspera.estudiantes.end() &&
+               itTipoComponente != listaEspera.tiposComponentes.end() &&
+               itcantidad != listaEspera.cantidad.end()) {
+            int cantidadEst = SumarComponentesPorCarnet2(listaEspera, itEstudiante->carnet);
+            if (cantidadEst > maxCantidad) {
+                maxCantidad = cantidadEst;
+                estudiantesConMaxComponentes.clear();  // Limpiar la lista si encontramos una cantidad mayor
+                estudiantesConMaxComponentes.push_back(*itEstudiante);
+            } else if (cantidadEst == maxCantidad) {
+                if(!verificarCarnetEstudiante(listaEspera, itEstudiante->carnet)){
+                    estudiantesConMaxComponentes.push_back(*itEstudiante);  // Agregar a la lista de estudiantes con la misma cantidad
+                }
+            }
+            ++itEstudiante;
+            ++itTipoComponente;
+            ++itcantidad;
+        }
+    }
+    cout << "Los estudiantes con mayor componentes prestados son: " << endl;
+    for (const auto& estudiante : estudiantesConMaxComponentes) {
+        cout << "Nombre: " << estudiante.nombre << " Carnet: " << estudiante.carnet << " Cantidad TOTAL pendiente: " << maxCantidad << endl;
+    }
+}
+
 // Función para encontrar al estudiante con la mayor morosidad
 void EstudianteConMayorMorosidad(const ListaMorosos& listaMorosos) {
     int maxCantidad = 0;
@@ -749,6 +906,7 @@ void EstudianteConMayorMorosidad(const ListaMorosos& listaMorosos) {
     cout << endl<< "=== Estudiantes mas Moroso ===" << endl;
     if (listaMorosos.estudiantes.empty()) {
         cout << "No hay estudiantes morosos en la lista." << endl;
+        return;
     }else {
         // Iterar a través de la lista de morosos
         auto itEstudiante = listaMorosos.estudiantes.begin();
@@ -789,13 +947,13 @@ void consultas(){
         cout << "1. Curso que requiere mas componentes electronicos en general" << endl;
         cout << "2. Estudiante con mas proyectos asignados" << endl;
         cout << "3. Proyecto que requiere mas tipos de componentes" << endl;
-        cout << "4. Estudiantes que deben esperar por mas de un tipo de comopnente" << endl;
+        cout << "4. Estudiantes que deben esperar por mas de un tipo de componente" << endl;
         cout << "5. Primeros tres tipos de componente requeridos por escasez" << endl;
         cout << "6. Estudiante con mas tipos de componente prestados" << endl;
         cout << "7. Estudiante con mayor morosidad" << endl;
         cout << "8. Lista de morosos" << endl;
         cout << "9. Lista de espera." << endl;
-        cout << "10. Volver al Menú Principal" << endl;
+        cout << "10. Volver al Menu Principal" << endl;
         cout << "-------------------------------------" << endl;
         cout << "Seleccione una opcion:";
         cin >> opcionConsulta;
@@ -813,13 +971,16 @@ void consultas(){
                 proyectoConMasTiposComponentes();
                 break;
             case 4:
-                cout << "4. Estudiantes que deben esperar por mas de un tipo de comopnente" << endl;
+                cout << "4. Estudiantes que deben esperar por mas de un tipo de componente" << endl;
+                EstudiantesEsperaMasDeUnComponente(datosSistema.listaEspera);
                 break;
             case 5:
                 cout << "5. Primeros tres tipos de componente requeridos por escasez" << endl;
+                TresPrimerosTiposComponentesEscasez();
                 break;
             case 6:
                 cout << "6. Estudiante con mas tipos de componente prestados" << endl;
+                EstudiantesConMasComponentesPrestados(datosSistema.listaEspera);
                 break;
             case 7:
                 cout << "7. Estudiante con mayor morosidad" << endl;
