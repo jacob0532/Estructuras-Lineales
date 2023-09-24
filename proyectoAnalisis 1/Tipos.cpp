@@ -10,7 +10,7 @@ Tipos::Tipos(string codigo, string nombre, string descripcion, string dondeSeUti
 }
 
 // Método que permite obtener una representación en string del tipo de componente
-string Tipos::ToString() {
+string Tipos::ToString() const {
     string tipoString = "Codigo: " + codigo + "\n";
     tipoString += "Nombre: " + nombre + "\n";
     tipoString += "Descripcion: " + descripcion + "\n";

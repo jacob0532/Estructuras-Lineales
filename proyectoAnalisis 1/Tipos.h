@@ -25,7 +25,7 @@ public:
     Tipos(string codigo, string nombre, string descripcion, string dondeSeUtilizan, int cantidad); //constructor de la clase Tipos
     
     // Método que permite obtener una representación en string del tipo de componente
-    string ToString();
+    string ToString() const;
 };
 
 #endif  // Tipos_H

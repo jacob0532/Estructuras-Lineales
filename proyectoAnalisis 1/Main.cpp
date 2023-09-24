@@ -252,6 +252,21 @@ void InsertarProyecto(DatosSistema& datosSistema) {
     string nombre, descripcion;
     double valorPorcentual;
 
+    cout << "Ingrese el código del curso existente: ";
+    string codigoCurso;
+    cin >> codigoCurso;
+
+    // Buscar el curso en la lista de cursos dentro de datosSistema
+    auto itCurso = find_if(datosSistema.listaCursos.begin(), datosSistema.listaCursos.end(),
+        [codigoCurso](const Curso& curso) {
+            return curso.codigo == codigoCurso;
+        });
+
+    if (itCurso == datosSistema.listaCursos.end()) {
+        cout << "Curso no encontrado. Verifique el código." << endl;
+        return;
+    }
+
     cout << "Ingrese el nombre del proyecto: ";
     cin.ignore();
     getline(cin, nombre);
@@ -275,7 +290,7 @@ void InsertarProyecto(DatosSistema& datosSistema) {
         cin >> agregarComponente;
 
         if (agregarComponente == 'S' || agregarComponente == 's') {
-            cout << "Ingrese el codigo del componente requerido: ";
+            cout << "Ingrese el código del componente requerido: ";
             cin >> codigoComponente;
 
             // Buscar el componente en la lista de componentes dentro de datosSistema
@@ -296,12 +311,13 @@ void InsertarProyecto(DatosSistema& datosSistema) {
                 nuevoProyecto.compRequeridos.push_back(componenteRequerido);
                 cout << "Componente requerido agregado correctamente." << endl;
             } else {
-                cout << "Componente no encontrado. Verifique el codigo." << endl;
+                cout << "Componente no encontrado. Verifique el código." << endl;
             }
         }
     } while (agregarComponente == 'S' || agregarComponente == 's');
 
-    // Agregar el proyecto a la lista de proyectos en la estructura DatosSistema
+    // Agregar el proyecto a la lista de proyectos del curso
+    itCurso->listaProyectos.push_back(nuevoProyecto);
     datosSistema.listaProyectos.push_back(nuevoProyecto);
 
     cout << "Proyecto ingresado correctamente." << endl;
@@ -313,9 +329,12 @@ void InsertarProyecto(DatosSistema& datosSistema) {
 //Fecha última modificación: 21/9/2023.
 void InsertarEstudianteListaEspera(DatosSistema& datosSistema) {
     string carnet;
-    Componente tipoComponente;
+    string codigoTipoComponente; // Cambiamos a string
     int cantidad;
+
+    // Imprimir lista de estudiantes
     ImprimirNombreYCarnet(datosSistema.listaEstudiantes);
+    
     cout << "Ingrese el carnet del estudiante: ";
     cin >> carnet;
 
@@ -329,23 +348,49 @@ void InsertarEstudianteListaEspera(DatosSistema& datosSistema) {
         cout << "Estudiante no encontrado. Verifique el carnet." << endl;
         return;
     }
-    ImprimirCodigoComponente(datosSistema.listaComponentes);
-    cout << "Ingrese el codigo del tipo de componente: ";
-    cin >> tipoComponente.codigo;
+
+    cout << "\n***Componentes y Tipos existentes***\n";
+    cout << " ";
+
+    // Imprimir lista de componentes y sus subtipos
+    for (const Componente& componente : datosSistema.listaComponentes) {
+        cout << "Nombre del componente: " << componente.nombre << endl;
+        cout << "Tipos:" << endl;
+        for (const Tipos& tipo : componente.tipos) {
+            cout << "Código: " << tipo.codigo << ", Nombre: " << tipo.nombre << endl;
+        }
+    }
+
+    cout << "\nIngrese el código del tipo de componente: "; // Solicita el código del tipo de componente
+    cin >> codigoTipoComponente;
 
     // Buscar el tipo de componente en la lista de componentes dentro de datosSistema
     auto itTipoComponente = find_if(datosSistema.listaComponentes.begin(), datosSistema.listaComponentes.end(),
-        [tipoComponente](const Componente& componente) {
-            return componente.codigo == tipoComponente.codigo;
+        [codigoTipoComponente](const Componente& componente) {
+            return any_of(componente.tipos.begin(), componente.tipos.end(),
+                [codigoTipoComponente](const Tipos& tipo) {
+                    return tipo.codigo == codigoTipoComponente;
+                });
         });
 
     if (itTipoComponente == datosSistema.listaComponentes.end()) {
-        cout << "Tipo de componente no encontrado. Verifique el codigo." << endl;
+        cout << "Tipo de componente no encontrado. Verifique el código." << endl;
         return;
     }
 
     cout << "Ingrese la cantidad deseada: ";
     cin >> cantidad;
+
+    // Verificar si el estudiante ya está en la lista de espera
+    auto itListaEsperaEstudiante = find_if(datosSistema.listaEspera.estudiantes.begin(), datosSistema.listaEspera.estudiantes.end(),
+        [carnet](const Estudiante& estudiante) {
+            return estudiante.carnet == carnet;
+        });
+
+    if (itListaEsperaEstudiante != datosSistema.listaEspera.estudiantes.end()) {
+        cout << "El estudiante ya está en la lista de espera." << endl;
+        return;
+    }
 
     // Agregar el estudiante, tipo de componente y cantidad a la lista de espera
     datosSistema.listaEspera.estudiantes.push_back(*itEstudiante);
@@ -354,6 +399,7 @@ void InsertarEstudianteListaEspera(DatosSistema& datosSistema) {
 
     cout << "Estudiante agregado a la lista de espera correctamente." << endl;
 }
+
 
 //Funcion que permite insertar un estudiane en una lista de morosos, lo incluye en la lista de morosos definida el inicio.
 //Fecha de inicio: 20/9/2023
@@ -566,12 +612,126 @@ Proyecto proyectoConMasTiposComponentes() {
     return proyectoConMasTipos;
 }
 
-/*
-//Funcion para matricular un estudiante
-void matricularEstudiante(){
 
+//Funcion para matricular un estudiante
+void MatricularEstudiante(DatosSistema& datosSistema) {
+    string carnet;
+    
+    cout << "Ingrese el carnet del estudiante: ";
+    cin >> carnet;
+
+    // Buscar el estudiante en la lista de estudiantes dentro de datosSistema
+    auto itEstudiante = find_if(datosSistema.listaEstudiantes.begin(), datosSistema.listaEstudiantes.end(),
+        [carnet](const Estudiante& estudiante) {
+            return estudiante.carnet == carnet;
+        });
+
+    if (itEstudiante == datosSistema.listaEstudiantes.end()) {
+        cout << "Estudiante no encontrado. Verifique el carnet." << endl;
+        return;
+    }
+
+    // Preguntar si el usuario quiere matricular al estudiante en cursos
+    char deseaMatricular = 's';
+    while (deseaMatricular == 's' || deseaMatricular == 'S') {
+        string codigoCurso;
+        
+        cout << "Ingrese el código del curso a matricular: ";
+        cin >> codigoCurso;
+
+        // Buscar el curso en la lista de cursos dentro de datosSistema
+        auto itCurso = find_if(datosSistema.listaCursos.begin(), datosSistema.listaCursos.end(),
+            [codigoCurso](const Curso& curso) {
+                return curso.codigo == codigoCurso;
+            });
+
+        if (itCurso == datosSistema.listaCursos.end()) {
+            cout << "Curso no encontrado. Verifique el código." << endl;
+        } else {
+            // Agregar el curso a la lista de matrícula del estudiante
+            itEstudiante->listaMatricula.push_back(*itCurso);
+            cout << "Estudiante matriculado en el curso correctamente." << endl;
+        }
+
+        // Preguntar si desea matricular al estudiante en otro curso
+        cout << "¿Desea matricular al estudiante en otro curso? (s/n): ";
+        cin >> deseaMatricular;
+
+        if (deseaMatricular != 's' && deseaMatricular != 'S' && deseaMatricular != 'n' && deseaMatricular != 'N') {
+            cout << "Respuesta no válida. Saliendo..." << endl;
+            return;
+        }
+    }
 }
-*/
+
+// Función para verificar si un estudiante puede solicitar un componente
+bool EstudiantePuedeSolicitarComponente(const Estudiante& estudiante, const string& codigoTipoComponente) {
+    // Iterar sobre los cursos matriculados del estudiante
+    for (const Curso& curso : estudiante.listaMatricula) {
+        // Iterar sobre los proyectos de cada curso
+        for (const Proyecto& proyecto : curso.listaProyectos) {
+            // Verificar si el proyecto contiene el componente requerido
+            for (const ComponenteRequerido& componenteRequerido : proyecto.compRequeridos) {
+                const Componente& componente = componenteRequerido.tipoComponente;
+                for (const Tipos& tipo : componente.tipos) {
+                    if (tipo.codigo == codigoTipoComponente && tipo.cantidad > 0) {
+                        // El estudiante puede solicitar el componente
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    // El estudiante no puede solicitar el componente
+    return false;
+}
+
+// Función para solicitar un componente a un estudiante
+void SolicitarComponente(DatosSistema& datosSistema) {
+    string carnet;
+    string codigoTipoComponente;
+    int cantidad;
+
+    cout << "Ingrese el carnet del estudiante: ";
+    cin >> carnet;
+
+    // Buscar el estudiante en la lista de estudiantes
+    auto itEstudiante = find_if(datosSistema.listaEstudiantes.begin(), datosSistema.listaEstudiantes.end(),
+        [carnet](const Estudiante& estudiante) {
+            return estudiante.carnet == carnet;
+        });
+
+    if (itEstudiante == datosSistema.listaEstudiantes.end()) {
+        cout << "Estudiante no encontrado. Verifique el carnet." << endl;
+        return;
+    }
+
+    cout << "Ingrese el código del tipo de componente que desea solicitar: ";
+    cin >> codigoTipoComponente;
+
+    // Verificar si el estudiante puede solicitar el componente
+    if (EstudiantePuedeSolicitarComponente(*itEstudiante, codigoTipoComponente)) {
+        // El estudiante puede solicitar el componente, procede a agregarlo a la lista de préstamos
+
+        // Insertar el componente en la lista de préstamos del estudiante
+        PrestamoTiposC prestamo;
+        prestamo.tipoComponente.codigo = codigoTipoComponente;
+        prestamo.proyecto = {}; // Aquí debes establecer el proyecto correspondiente
+        prestamo.cantidad = cantidad; // Asegúrate de obtener la cantidad solicitada del usuario
+
+        itEstudiante->listaPrestamos.push_back(prestamo);
+
+        cout << "Componente solicitado correctamente." << endl;
+    } else {
+        // El estudiante no puede solicitar el componente, agrega a la lista de espera
+
+        // Añadir el estudiante, el código del tipo de componente y la cantidad a la lista de espera
+        // ... (debes implementar esta parte según la lógica de tu programa)
+        cout << "El componente no está disponible para préstamo en ninguno de los cursos del estudiante." << endl;
+    }
+}
+
+
 //Es el submenu de las inserciones permitidas
 //Fecha de inicio: 14/9/2023
 //Fecha última modificación: 20/9/2023.
@@ -586,10 +746,11 @@ void menuInserciones(){
         cout << "2. Ingresar Curso" << endl;
         cout << "3. Ingresar Componente" << endl;
         cout << "4. Ingresar Proyecto" << endl;
-        cout << "5. Ingresar Lista de Espera" << endl;
-        cout << "6. Ingresar Lista de Morosos" << endl;
+        cout << "5. Pedir Componente" << endl;
+        cout << "6. Regresar Componente" << endl;
         cout << "7. Ingresar Tipos" << endl;
-        cout << "8. Volver al Menu Principal" << endl;
+        cout << "8. Matricular Estudiante." << endl;
+        cout << "9. Volver al Menu Principal" << endl;
         cout << "-------------------------------------" << endl;
         cout << "Seleccione una opcion:";
         cin >> opcionInserciones;
@@ -611,18 +772,23 @@ void menuInserciones(){
                 InsertarProyecto(datosSistema);
                 break;
             case 5:
-                cout << "Insertar Lista de Espera." << endl;
-                InsertarEstudianteListaEspera(datosSistema);
+                cout << "Pedir Componente." << endl;
+                //InsertarEstudianteListaEspera(datosSistema);
+                SolicitarComponente(datosSistema);
                 break;
             case 6:
-                cout << "Insertar Lista de Morosos." << endl;
-                InsertarListaMorosos(datosSistema);
+                cout << "Regresar Componente." << endl;
+                //InsertarListaMorosos(datosSistema);
                 break;
             case 7:
                 cout << "Insertar Tipos." << endl;
                 InsertarTipo(datosSistema);
                 break;
             case 8:
+                cout << "Matricular Estudiante." << endl;
+                MatricularEstudiante(datosSistema);
+                break;
+            case 9:
                 salirInserciones = true;
                 break;
             default:

@@ -7,7 +7,7 @@ using namespace std;
 Estudiante::Estudiante(string carnet, string nombre, string apellido, string cedula, int edad, string lugarResidencia)
     : carnet(carnet), nombre(nombre), apellido(apellido), cedula(cedula), edad(edad), lugarResidencia(lugarResidencia) {}
 
-string Estudiante::ToString() {
+string Estudiante::ToString() const {
     string info = "Carnet: " + carnet + "\n";
     info += "Nombre: " + nombre + "\n";
     info += "Apellido: " + apellido + "\n";
@@ -45,7 +45,7 @@ bool Estudiante::SolicitarPrestamo(Componente tipoComponente, int cantidad) {
                         if (tipo.codigo == tipoComponente.codigo && tipo.cantidad >= cantidad) {
                             // Si el componente es necesario y hay suficiente cantidad para prestar
                             PrestamoTiposC prestamo;
-                            prestamo.tipoComponente = tipoComponente;
+                            //prestamo.tipoComponente = tipoComponente;
                             prestamo.proyecto = proyecto;
                             prestamo.cantidad = cantidad;
                             listaPrestamos.push_back(prestamo);
